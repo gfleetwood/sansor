@@ -8,6 +8,8 @@ Won't work on Windows. Tested on Linux. Helped by:
 
 * https://www.datascienceatthecommandline.com/
 
+* https://www.datacamp.com/community/tutorials/shell-commands-data-scientist
+
 * R For Everything
 
 * Other: csvkit (python), sed (row by row), awk
@@ -21,3 +23,5 @@ Won't work on Windows. Tested on Linux. Helped by:
 * split: split -l 500 filename.csv new_filename_
 
 * uniq
+
+* https://stackoverflow.com/questions/9245638/select-random-lines-from-a-file-in-bash
