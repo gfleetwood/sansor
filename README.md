@@ -1,6 +1,8 @@
-# Overview
+# sansor: Command line data utilities for R
 ------------------------
 ------------------------
+
+## Overview
 
 Won't work on Windows. Tested on Linux. Helped by:
 
@@ -13,6 +15,10 @@ Won't work on Windows. Tested on Linux. Helped by:
 * R For Everything
 
 * Other: csvkit (python), sed (row by row), awk
+
+## Installation
+
+`devtools::install_github("gfleetwood/sansor")`
 
 ## Roadmap
 
