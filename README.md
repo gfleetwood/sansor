@@ -1,4 +1,4 @@
-# sansor: Command line data utilities for R
+# sansor: Helper data utilities for R
 ------------------------
 ------------------------
 

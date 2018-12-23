@@ -1,3 +1,224 @@
+get_dummies <- function(df){
+    dmy <- dummyVars(" ~ skillid", data = df)
+    dummied_cols <- data.frame(predict(dmy, newdata = df))
+    df2 <- df %>% select(-skillid) %>% cbind(., dummied_cols)
+    return(df2)
+}
+
+make_formula <- function(target, additions, subtractions = NULL, powers = NULL){
+
+    add_sub_sep = ifelse(is.null(subtractions), '', '-')
+    add <- paste0(additions, collapse = ' + ')
+    subtract <- paste0(subtractions, collapse = ' - ')
+    add_subtract <- paste(add, subtract, sep = add_sub_sep)
+
+    return(as.formula(paste(target, add_subtract, sep = '~')))
+
+}
+
+
+#' Rounded Mean Function
+#'
+#' This function return the mean of vector to n decimal places while ignoring missing values.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords
+#' @export
+#' @examples
+#' mean_dp()
+
+mean_dp <- function(col, num_dp){
+    result <- mean(col, na.rm = T)
+    return(round(result, num_dp))
+}
+
+#' Read CSVs Function
+#'
+#' This function takes a path and reads all the csvs in it into a single dataframe.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+read_csvs <- function(path){
+    dfs <- dir(path, pattern ='\\.csv', full.names = T) %>%
+        map_df(read.csv, sep =',', header = T, stringAsFactors = F)
+    return(dfs)
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+init_project <- function(){
+    system(glue('cp -R ./project_template {wd}'))
+    return('Project Initiatized')
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+cor_interactive <- function(df){
+
+    plot <- df %>%
+        select_if( function(x) is.numeric(x) | is.integer(x)) %>%
+        cor() %>%
+        plot_ly(
+            x = rownames(.),
+            y = rownames(.),
+            colorscale = "Greys",
+            z = .,
+            type = "heatmap"
+        )
+    return(plot)
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+optimal_hist_bins <- function(vec){
+    return(diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3)))
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+standard_scaler_vec <- function(x){
+    return((x - mean(x, na.rm = T))/sd(x, na.rm = T))
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+standard_scaler_df <- function(x){
+    return((x - mean(x, na.rm = T))/sd(x, na.rm = T))
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+mode_stat <- function(vec){
+    vals <- vec %>% tabyl() %>% arrange(desc(n)) %>% select(1)
+    return(as.character(vals[1,]))
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+min_max_scaler_vec <- function(x, max_, min_){
+    x_std = (x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T))
+    x_scaled = x_std * (max_ - min_) + min_
+    return(X_scaled)
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+min_max_scaler_df <- function(df, max_, min_){
+
+    df_other <- df %>%
+        select_if(
+            function(y) !is.numeric(y) & !is.integer(y)
+        )
+
+    df_num <- df %>%
+        select_if(
+            function(y) is.numeric(y) | is.integer(y)
+        )
+
+    result <- map_df(df_num, function (x) min_max_scaler_vec(x, max_, min_))
+    return(cbind(df_other, result))
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+# https://stackoverflow.com/a/31040758/6627726
+ss_sampleseed <- function(x, frac){
+    set.seed(8)
+    x[sample.int(nrow(x), frac*nrow(x)), ]
+    return(x)
+}
+
+#' Init Project Function
+#'
+#' This function sets up all I need to start a new project.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords cats
+#' @export
+#' @examples
+#' mean_dp()
+
+cohens_h <- function(p1, p2){
+    return(abs(2*(asin(sqrt(p1)) - asin(sqrt(p2)))))
+}
+
+
 #' A Function
 #'
 #' A print out of some base R functions which replicate command line operations.
