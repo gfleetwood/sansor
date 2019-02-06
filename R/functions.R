@@ -1,21 +1,18 @@
-get_dummies <- function(df){
-    dmy <- dummyVars(" ~ skillid", data = df)
-    dummied_cols <- data.frame(predict(dmy, newdata = df))
-    df2 <- df %>% select(-skillid) %>% cbind(., dummied_cols)
-    return(df2)
+#' Rounded Mean Function
+#'
+#' This function return the mean of vector to n decimal places while ignoring missing values.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords
+#' @export
+#' @examples
+#' mean_dp()
+
+write_txt <- function(fobj, fname){
+    con <- file(fname)
+    writeLines(c(fobj),  con)
+    close(con)
 }
-
-make_formula <- function(target, additions, subtractions = NULL, powers = NULL){
-
-    add_sub_sep = ifelse(is.null(subtractions), '', '-')
-    add <- paste0(additions, collapse = ' + ')
-    subtract <- paste0(subtractions, collapse = ' - ')
-    add_subtract <- paste(add, subtract, sep = add_sub_sep)
-
-    return(as.formula(paste(target, add_subtract, sep = '~')))
-
-}
-
 
 #' Rounded Mean Function
 #'
@@ -27,9 +24,32 @@ make_formula <- function(target, additions, subtractions = NULL, powers = NULL){
 #' @examples
 #' mean_dp()
 
-mean_dp <- function(col, num_dp){
-    result <- mean(col, na.rm = T)
-    return(round(result, num_dp))
+get_dummies <- function(df, var){
+    dmy <- dummyVars(" ~ skillid", data = df)
+    dummied_cols <- data.frame(predict(dmy, newdata = df))
+    df2 <- df %>% select(-skillid) %>% cbind(., dummied_cols)
+    return(df2)
+}
+
+#' Rounded Mean Function
+#'
+#' This function return the mean of vector to n decimal places while ignoring missing values.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords
+#' @export
+#' @examples
+#' mean_dp()
+
+make_formula <- function(target, additions, subtractions = NULL, powers = NULL){
+
+    add_sub_sep = ifelse(is.null(subtractions), '', '-')
+    add <- paste0(additions, collapse = ' + ')
+    subtract <- paste0(subtractions, collapse = ' - ')
+    add_subtract <- paste(add, subtract, sep = add_sub_sep)
+
+    return(as.formula(paste(target, add_subtract, sep = '~')))
+
 }
 
 #' Read CSVs Function
@@ -46,21 +66,6 @@ read_csvs <- function(path){
     dfs <- dir(path, pattern ='\\.csv', full.names = T) %>%
         map_df(read.csv, sep =',', header = T, stringAsFactors = F)
     return(dfs)
-}
-
-#' Init Project Function
-#'
-#' This function sets up all I need to start a new project.
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @keywords cats
-#' @export
-#' @examples
-#' mean_dp()
-
-init_project <- function(){
-    system(glue('cp -R ./project_template {wd}'))
-    return('Project Initiatized')
 }
 
 #' Init Project Function
@@ -197,7 +202,6 @@ min_max_scaler_df <- function(df, max_, min_){
 #' @examples
 #' mean_dp()
 
-# https://stackoverflow.com/a/31040758/6627726
 ss_sampleseed <- function(x, frac){
     set.seed(8)
     x[sample.int(nrow(x), frac*nrow(x)), ]
@@ -227,7 +231,6 @@ cohens_h <- function(p1, p2){
 #' bash_baseR()
 
 bash_baseR <- function(){
-
   print('
 A list of useful base R bash functions:
 
@@ -243,39 +246,6 @@ A list of useful base R bash functions:
         ')
 }
 
-
-#' A Function
-#'
-#' A command line version of rbind for two files.
-#' @param f1 The name/path of the first file.
-#' @param f2 The name/path of the second file.
-#' @export
-#' @examples
-#' bash_rbind()
-
-bash_rbind <- function(f1, f2){
-  return(file.append(f1, f2))
-}
-
-#' A Function
-#'
-#' A command line version of cbind for two files.
-#' @param f1 The name/path of the first file.
-#' @param f2 The name/path of the second file.
-#' @param f_product Name of the new file produced by the binding
-#' @export
-#' @examples
-#' bash_cbind()
-
-bash_cbind <- function(f1, f2, f_product){
-  system(
-    glue("paste -d ',' {f1} {f2} > {f_product}")
-  )
-
-  return(
-    glue("{f1} and {f2} joined column-wise into {f_product}."
-    )
-}
 
 #' A Function
 #'
@@ -434,8 +404,21 @@ bash_join <- function(f1, col1, f2, col2, f_new){
   )
 }
 
+#' A Function
+#'
+#' Join two files.
+#' @param f1 The name/path of the first file.
+#' @param col1 Column to use for joining from the first file.
+#' @param f2 The name/path of the second file.
+#' @param col2 Column to use for joining from the second file.
+#' @param f_new Nme for new file.
+#' @export
+#' @examples
+#' bash_join()
 
-
+remove_col_dups <- function(df){
+    return(df[!duplicated(names(df), fromLast=TRUE)])
+}
 
 
 
