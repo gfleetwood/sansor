@@ -1,12 +1,17 @@
 # sansor: Helper data utilities for R
 ------------------------
-------------------------
 
 ## Overview
 
-**UNDER DEVELOPMENT**
+This was originally a library for using command line data utilies in R. Now it's a general purpose library for my data processing needs.
 
-Won't work on Windows. Tested on Linux. Helped by:
+## Installation
+
+`devtools::install_github("gfleetwood/sansor")`
+
+## Notes
+
+* Tested on Linux. The command line utilities won't work on Windows.
 
 * https://medium.com/@kadek/command-line-tricks-for-data-scientists-c98e0abe5da
 
@@ -17,12 +22,6 @@ Won't work on Windows. Tested on Linux. Helped by:
 * R For Everything
 
 * Other: csvkit (python), sed (row by row), awk
-
-## Installation
-
-`devtools::install_github("gfleetwood/sansor")`
-
-## Roadmap
 
 * iconv: iconv -f ISO-8859-1 -t UTF-8 < input.txt > output.txt
 
