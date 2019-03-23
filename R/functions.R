@@ -1,3 +1,32 @@
+library(TSclust)
+library(parallelDist)
+
+ts_clustering <- function(mat, dist = "dtw", linkage = "average"){
+    mat_dist <- parDist(x = stories_temp, method = dist)
+    stories_clust <- hclust(mat_dist,  method = linkage)
+    return(stories_clust)
+}
+
+mode_stats <- function(vec){
+    return((tabyl(vec) %>% arrange(desc(n)) %>% pull(1))[1])
+}
+
+#' Rounded Mean Function
+#'
+#' https://stats.stackexchange.com/questions/78609/outlier-detection-in-very-small-sets/78617#78617
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords
+#' @export
+#' @examples
+#' mean_dp()
+
+small_sample_outliers <- function(vec){
+    mi <- .6745*(vec - mean(vec))/mad(vec)
+    return(vec[abs(mi) > 3.5])
+}
+
+
 #' Rounded Mean Function
 #'
 #' This function return the mean of vector to n decimal places while ignoring missing values.
@@ -24,10 +53,12 @@ write_txt <- function(fobj, fname){
 #' @examples
 #' mean_dp()
 
-get_dummies <- function(df, var){
-    dmy <- dummyVars(" ~ skillid", data = df)
+get_dummies <- function(df, col){
+
+    dmy <- dummyVars(paste("~", col), data = df)
     dummied_cols <- data.frame(predict(dmy, newdata = df))
-    df2 <- df %>% select(-skillid) %>% cbind(., dummied_cols)
+    df2 <- df %>% select_(paste("-", col)) %>% cbind(., dummied_cols)
+
     return(df2)
 }
 
@@ -420,5 +451,45 @@ remove_col_dups <- function(df){
     return(df[!duplicated(names(df), fromLast=TRUE)])
 }
 
+get_model_diagnostics <- function(mdl){
+    return(inner_join(broom::tidy(mdl), tidy(confint(mdl)), by = c("term" = ".rownames")))
+}
 
+calc_accuracy <- function(labels, preds){
 
+    results <- table(labels, preds) %>%
+        data.frame %>%
+        mutate(correct = ifelse(labels==preds, 1, 0)) %>%
+        group_by(correct) %>%
+        summarise(freq = sum(Freq)) %>%
+        ungroup() %>%
+        mutate(prop = freq/sum(freq)) %>%
+        filter(correct == 1)
+
+    return(results)
+}
+
+accuracy_mine <- function(mdl, threshold, df){
+    return(
+        round(
+            mean(as.integer(predict(mdl, data = df %>% select(-target), type = "response") >= threshold) == df$target),
+            2)
+    )
+}
+
+model_glm <- function(df) {
+    glm(y ~ ., data = df, family = binomial(link="logit"))
+}
+
+read_csv_sample <- function(fpath, nrows, seed = 8, header = "-r"){
+
+    sample <- system(glue("subsample {header} -s {seed} -n {nrows} {fpath}"), intern = T)
+
+    # Convert the character vector into a string
+    sample_cleaned <- paste(sample, collapse = '\n')
+
+    df <- read_csv(sample_cleaned)
+
+    return(df)
+
+}
