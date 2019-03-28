@@ -1,5 +1,15 @@
 library(TSclust)
 library(parallelDist)
+library(rsample)
+
+train_test_split <- function(df, ratio){
+
+    split <- initial_split(data, prop = ratio)
+    train <- training(data_split)
+    test  <- testing(data_split)
+
+    return(list(train, test))
+}
 
 ts_clustering <- function(mat, dist = "dtw", linkage = "average"){
     mat_dist <- parDist(x = stories_temp, method = dist)
