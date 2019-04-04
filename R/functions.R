@@ -503,3 +503,10 @@ read_csv_sample <- function(fpath, nrows, seed = 8, header = "-r"){
     return(df)
 
 }
+
+impute_with_na <- function(df, val){
+
+    df[df==""] <- NA
+    return(df)
+
+}
