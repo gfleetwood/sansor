@@ -2,6 +2,71 @@ library(TSclust)
 library(parallelDist)
 library(rsample)
 
+get_model_diagnostics <- function(mdl){
+    return(inner_join(broom::tidy(mdl), tidy(confint(mdl)), by = c("term" = ".rownames")))
+}
+
+calc_accuracy <- function(labels, preds){
+
+    results <- table(labels, preds) %>%
+        data.frame %>%
+        mutate(correct = ifelse(labels==preds, 1, 0)) %>%
+        group_by(correct) %>%
+        summarise(freq = sum(Freq)) %>%
+        ungroup() %>%
+        mutate(prop = freq/sum(freq)) %>%
+        filter(correct == 1)
+
+    return(results)
+}
+
+accuracy_mine <- function(mdl, threshold, X){
+
+    preds_probs <- predict(mdl, data = X, type = "response")
+    preds_binary <- as.integer(preds_probs >= threshold)
+    result = round(mean(preds_binary == df$target), 2)
+    return(result)
+}
+
+model_glm <- function(df) {
+    glm(y ~ ., data = df, family = binomial(link="logit"))
+}
+
+read_csv_sample <- function(fpath, nrows, seed = 8, header = "-r"){
+
+    sample <- system(glue("subsample {header} -s {seed} -n {nrows} {fpath}"), intern = T)
+
+    # Convert the character vector into a string
+    sample_cleaned <- paste(sample, collapse = '\n')
+
+    df <- read_csv(sample_cleaned)
+
+    return(df)
+
+}
+
+impute_with_na <- function(df, val){
+
+    df[df==""] <- NA
+    return(df)
+
+}
+
+
+move_col <- function(df, col_name, pos){
+
+    var <- enquo(col_name)
+
+    df <- df %>%
+        add_column(temp = 1, .before = pos) %>%
+        mutate(temp = !!var) %>%
+        select(-!!var) %>%
+        rename(!!var := temp)
+
+    return(df)
+
+}
+
 train_test_split <- function(df, ratio){
 
     split <- initial_split(data, prop = ratio)
@@ -459,54 +524,4 @@ bash_join <- function(f1, col1, f2, col2, f_new){
 
 remove_col_dups <- function(df){
     return(df[!duplicated(names(df), fromLast=TRUE)])
-}
-
-get_model_diagnostics <- function(mdl){
-    return(inner_join(broom::tidy(mdl), tidy(confint(mdl)), by = c("term" = ".rownames")))
-}
-
-calc_accuracy <- function(labels, preds){
-
-    results <- table(labels, preds) %>%
-        data.frame %>%
-        mutate(correct = ifelse(labels==preds, 1, 0)) %>%
-        group_by(correct) %>%
-        summarise(freq = sum(Freq)) %>%
-        ungroup() %>%
-        mutate(prop = freq/sum(freq)) %>%
-        filter(correct == 1)
-
-    return(results)
-}
-
-accuracy_mine <- function(mdl, threshold, df){
-    return(
-        round(
-            mean(as.integer(predict(mdl, data = df %>% select(-target), type = "response") >= threshold) == df$target),
-            2)
-    )
-}
-
-model_glm <- function(df) {
-    glm(y ~ ., data = df, family = binomial(link="logit"))
-}
-
-read_csv_sample <- function(fpath, nrows, seed = 8, header = "-r"){
-
-    sample <- system(glue("subsample {header} -s {seed} -n {nrows} {fpath}"), intern = T)
-
-    # Convert the character vector into a string
-    sample_cleaned <- paste(sample, collapse = '\n')
-
-    df <- read_csv(sample_cleaned)
-
-    return(df)
-
-}
-
-impute_with_na <- function(df, val){
-
-    df[df==""] <- NA
-    return(df)
-
 }
