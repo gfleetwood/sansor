@@ -1,3 +1,14 @@
+#' Remove Duplicated Columns
+#'
+#' Generates unique columns for a dataframe.
+#'
+#' @param df The dataframe to be modified.
+
+remove_col_dups <- function(df){
+    return(df[!duplicated(names(df), fromLast = TRUE)])
+}
+
+
 #' Init Project Function
 #'
 #' This function sets up all I need to start a new project.
