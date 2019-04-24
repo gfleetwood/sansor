@@ -109,7 +109,7 @@ get_dummies <- function(df, col){
 #' @export
 #' @examples
 #' mean_dp()
-#'
+
 move_col <- function(df, col_name, pos){
 
     var <- enquo(col_name)
@@ -120,6 +120,24 @@ move_col <- function(df, col_name, pos){
         select(-!!var) %>%
         rename(!!var := temp)
 
+    return(df)
+
+}
+
+#' Rounded Mean Function
+#'
+#' This function return the mean of vector to n decimal places while ignoring missing values.
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @keywords
+#' @export
+#' @examples
+#' mean_dp()
+
+
+impute_with_na <- function(df, val = ""){
+
+    df[df == val] <- NA
     return(df)
 
 }
