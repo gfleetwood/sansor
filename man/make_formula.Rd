@@ -2,18 +2,20 @@
 % Please edit documentation in R/general.R
 \name{make_formula}
 \alias{make_formula}
-\title{Rounded Mean Function}
+\title{Dynamic Formula Construction}
 \usage{
-make_formula(target, additions, subtractions = NULL, powers = NULL)
+make_formula(target, additions, subtractions = NULL)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{target}{The LHS (left hand side) of the formula}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{additions}{The columns to add}
+
+\item{substractions}{The columns to subtract}
+}
+\value{
+A formula
 }
 \description{
-This function return the mean of vector to n decimal places while ignoring missing values.
-}
-\examples{
-mean_dp()
+A simple dynamic formula constructor
 }

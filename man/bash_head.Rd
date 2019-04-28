@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_head}
 \alias{bash_head}
-\title{A Function}
+\title{Show Head Of File}
 \usage{
 bash_head(f1, nrows)
 }
@@ -13,7 +13,4 @@ bash_head(f1, nrows)
 }
 \description{
 Show the top n rows of a file.
-}
-\examples{
-bash_head()
 }

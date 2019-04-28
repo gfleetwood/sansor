@@ -2,18 +2,15 @@
 % Please edit documentation in R/general.R
 \name{write_txt}
 \alias{write_txt}
-\title{Rounded Mean Function}
+\title{Write Text File}
 \usage{
-write_txt(fobj, fname)
+write_txt(obj, fname)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{obj}{The object to write}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{fname}{The name of the file to write to}
 }
 \description{
-This function return the mean of vector to n decimal places while ignoring missing values.
-}
-\examples{
-mean_dp()
+Helper function to write an object to txt
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_nrows}
 \alias{bash_nrows}
-\title{A Function}
+\title{Counts Rows Of On Disk File}
 \usage{
 bash_nrows(f1)
 }
@@ -11,7 +11,4 @@ bash_nrows(f1)
 }
 \description{
 A command line version of nrow
-}
-\examples{
-bash_nrows()
 }

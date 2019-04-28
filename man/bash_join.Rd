@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_join}
 \alias{bash_join}
-\title{A Function}
+\title{Bash Join Function}
 \usage{
 bash_join(f1, col1, f2, col2, f_new)
 }
@@ -18,8 +18,5 @@ bash_join(f1, col1, f2, col2, f_new)
 \item{f_new}{Nme for new file.}
 }
 \description{
-Join two files.
-}
-\examples{
-bash_join()
+Join two files stored on disk.
 }

@@ -2,19 +2,16 @@
 % Please edit documentation in R/general.R
 \name{mode_stats}
 \alias{mode_stats}
-\title{Init Project Function}
+\title{Mode}
 \usage{
 mode_stats(vec)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
-
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{vec}{A numeric/integer vector}
+}
+\value{
+The mode of the submitted vector
 }
 \description{
-This function sets up all I need to start a new project.
+Calculates the statistical mode
 }
-\examples{
-mean_dp()
-}
-\keyword{cats}

@@ -2,19 +2,13 @@
 % Please edit documentation in R/import.R
 \name{read_csvs}
 \alias{read_csvs}
-\title{Read CSVs Function}
+\title{Read CSVs}
 \usage{
 read_csvs(path)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
-
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{path}{The path to the csvs to read in}
 }
 \description{
 This function takes a path and reads all the csvs in it into a single dataframe.
 }
-\examples{
-mean_dp()
-}
-\keyword{cats}

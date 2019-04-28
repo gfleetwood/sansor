@@ -2,19 +2,22 @@
 % Please edit documentation in R/import.R
 \name{read_csv_sample}
 \alias{read_csv_sample}
-\title{Read CSVs Function}
+\title{Read CSV Sample}
 \usage{
-read_csv_sample(fpath, nrows, seed = 8, header = "-r")
+read_csv_sample(fname, nrows, seed = 8, header = "-r")
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{nrows}{The number of rows to sample}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{seed}{The seed to use for the random selection}
+
+\item{header}{An indicator of whether the file has a header row. The default is yes ("=r"). Use "" for no.}
+
+\item{fpath}{The pth and name of the file}
+}
+\value{
+df A sample of the file specified
 }
 \description{
 This function takes a path and reads all the csvs in it into a single dataframe.
 }
-\examples{
-mean_dp()
-}
-\keyword{cats}

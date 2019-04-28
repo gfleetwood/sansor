@@ -2,19 +2,17 @@
 % Please edit documentation in R/transform.R
 \name{move_col}
 \alias{move_col}
-\title{Rounded Mean Function}
+\title{Move Column}
 \usage{
 move_col(df, col_name, pos)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{df}{A dataframe}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{col_name}{THe name of the column to move}
+
+\item{pos}{The position to move the column to}
 }
 \description{
-This function return the mean of vector to n decimal places while ignoring missing values.
-}
-\examples{
-mean_dp()
-
+Move a dataframe's column to a given position.
 }

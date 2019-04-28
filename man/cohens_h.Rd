@@ -2,19 +2,15 @@
 % Please edit documentation in R/general.R
 \name{cohens_h}
 \alias{cohens_h}
-\title{Init Project Function}
+\title{Cohen's H}
 \usage{
 cohens_h(p1, p2)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{p1}{The first probability or proportion}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{p2}{The second probability or proportion}
 }
 \description{
-This function sets up all I need to start a new project.
+Calculates Cohen's H for two probabilities or proportions.
 }
-\examples{
-mean_dp()
-}
-\keyword{cats}

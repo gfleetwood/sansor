@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_col_sum}
 \alias{bash_col_sum}
-\title{A Function}
+\title{Column Sum}
 \usage{
 bash_col_sum(f1, col)
 }
@@ -13,7 +13,4 @@ bash_col_sum(f1, col)
 }
 \description{
 Finds the sum of a given column.
-}
-\examples{
-bash_col_sum()
 }

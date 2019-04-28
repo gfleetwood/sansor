@@ -2,19 +2,17 @@
 % Please edit documentation in R/model.R
 \name{ts_clustering}
 \alias{ts_clustering}
-\title{Init Project Function}
+\title{Time Series Clustering}
 \usage{
 ts_clustering(mat, dist = "dtw", linkage = "average")
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{mat}{A matrix}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{dist}{A distance measure. See the method arg in parallelDist::parDist for the supported parameters.}
+
+\item{linkage}{The type of linkage to use. See the method arg in TSclust::hclust for the supported parameters.}
 }
 \description{
 This function sets up all I need to start a new project.
 }
-\examples{
-mean_dp()
-}
-\keyword{cats}

@@ -2,19 +2,18 @@
 % Please edit documentation in R/model.R
 \name{train_test_split}
 \alias{train_test_split}
-\title{Init Project Function}
+\title{Train Test Split}
 \usage{
 train_test_split(df, ratio)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{df}{The dataframe to splitr}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{ratio}{The fraction of data for training}
+}
+\value{
+A list of the training and testing dataframes
 }
 \description{
 This function sets up all I need to start a new project.
 }
-\examples{
-mean_dp()
-}
-\keyword{cats}

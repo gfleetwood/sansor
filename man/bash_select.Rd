@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_select}
 \alias{bash_select}
-\title{A Function}
+\title{Select Column Bash}
 \usage{
 bash_select(f1, cols_to_remove, f2 = NA)
 }
@@ -14,8 +14,5 @@ bash_select(f1, cols_to_remove, f2 = NA)
 \item{f_new}{Optional name for new file if the results should be saved.}
 }
 \description{
-This function allows you to express your love of cats.
-}
-\examples{
-bash_select()
+Selects a column from a file on disk
 }

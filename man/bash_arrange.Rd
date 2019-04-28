@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_arrange}
 \alias{bash_arrange}
-\title{A Function}
+\title{Column Sort}
 \usage{
 bash_arrange(f1, col_sort)
 }
@@ -12,8 +12,5 @@ bash_arrange(f1, col_sort)
 \item{col_sort}{The name of the column to find the mean of.}
 }
 \description{
-Sorting
-}
-\examples{
-bash_arrange()
+Sorting by a column
 }

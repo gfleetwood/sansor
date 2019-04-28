@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_col_mean}
 \alias{bash_col_mean}
-\title{A Function}
+\title{Column Mean}
 \usage{
 bash_col_mean(f1, col)
 }
@@ -12,8 +12,5 @@ bash_col_mean(f1, col)
 \item{col}{The name of the column to find the mean of.}
 }
 \description{
-Finds the sum of a given column.
-}
-\examples{
-bash_col_mean()
+Finds the mean of a given column.
 }

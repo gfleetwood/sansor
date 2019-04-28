@@ -3,6 +3,7 @@
 #' A command line version of nrow
 #'
 #' @param f1 Name/path of the file
+#' @return
 
 bash_nrows <- function(f1){
     system(glue("wc -l {f1}"))
@@ -14,6 +15,7 @@ bash_nrows <- function(f1){
 #'
 #' @param f1 Name/path of the file.
 #' @param sep File separator. Defaults to csv.
+#' @return The number of columns
 
 bash_ncols <- function(f1, sep = ','){
     return(unique(count.fields(f1, sep = sep)))
@@ -25,6 +27,7 @@ bash_ncols <- function(f1, sep = ','){
 #'
 #' @param f1 The name/path of the file.
 #' @param nrows The number of rows to show.
+#' @return
 
 bash_head <- function(f1, nrows){
     system(glue("head -n {nrows} {f1}"))
@@ -36,6 +39,7 @@ bash_head <- function(f1, nrows){
 #'
 #' @param f1 The name/path of the file.
 #' @param col The name of the column to find the sum of.
+#' @return
 
 bash_col_sum <- function(f1, col){
     col_num <-  which(names(f1) == col)
@@ -48,6 +52,7 @@ bash_col_sum <- function(f1, col){
 #'
 #' @param f1 The name/path of the file.
 #' @param col The name of the column to find the mean of.
+#' @return
 
 bash_col_mean <- function(f1, col){
     col_num <-  which(names(f1) == col)
@@ -60,6 +65,7 @@ bash_col_mean <- function(f1, col){
 #'
 #' @param f1 The name/path of the file.
 #' @param col_sort The name of the column to find the mean of.
+#' @return
 
 bash_arrange <- function(f1, col_sort){
 
@@ -75,6 +81,7 @@ bash_arrange <- function(f1, col_sort){
 #' @param f1 The name/path of the file.
 #' @param cols_to_remove Names of the columns to removes.
 #' @param f_new Optional name for new file if the results should be saved.
+#' @return
 
 bash_select <- function(f1, cols_to_remove, f2 = NA){
 
@@ -104,6 +111,7 @@ bash_select <- function(f1, cols_to_remove, f2 = NA){
 #' @param f2 The name/path of the second file.
 #' @param col2 Column to use for joining from the second file.
 #' @param f_new Nme for new file.
+#' @return
 
 bash_join <- function(f1, col1, f2, col2, f_new){
 

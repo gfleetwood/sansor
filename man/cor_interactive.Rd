@@ -2,19 +2,16 @@
 % Please edit documentation in R/visualize.R
 \name{cor_interactive}
 \alias{cor_interactive}
-\title{Init Project Function}
+\title{Interactive Correlation Map}
 \usage{
 cor_interactive(df)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
-
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{df}{A dataframe}
+}
+\value{
+An interactive correlation map of the numeric/integer variables
 }
 \description{
-This function sets up all I need to start a new project.
+Produces an interactive correlation map of the numeric/integer variables
 }
-\examples{
-mean_dp()
-}
-\keyword{cats}

@@ -2,18 +2,18 @@
 % Please edit documentation in R/transform.R
 \name{get_dummies}
 \alias{get_dummies}
-\title{Rounded Mean Function}
+\title{Get Dummies}
 \usage{
 get_dummies(df, col)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{df}{A dataframe}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{col}{Column name to be dummied as string}
+}
+\value{
+The dummified dataframe
 }
 \description{
-This function return the mean of vector to n decimal places while ignoring missing values.
-}
-\examples{
-mean_dp()
+Dummy a given categorical variable
 }

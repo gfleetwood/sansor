@@ -2,19 +2,17 @@
 % Please edit documentation in R/general.R
 \name{ss_sampleseed}
 \alias{ss_sampleseed}
-\title{Init Project Function}
+\title{Seed Sampling}
 \usage{
-ss_sampleseed(x, frac)
+ss_sampleseed(df, frac, seed = 8)
 }
 \arguments{
-\item{col}{A numeric/integer vector}
+\item{df}{A dataframe}
 
-\item{num_dp}{The numeric of decimal places to round the mean to.}
+\item{frac}{The fraction}
+
+\item{seed}{The seed for the sampling}
 }
 \description{
-This function sets up all I need to start a new project.
+Produces a reproducible sample from a dataframe with
 }
-\examples{
-mean_dp()
-}
-\keyword{cats}

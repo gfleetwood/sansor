@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_ncols}
 \alias{bash_ncols}
-\title{A Function}
+\title{Column Counter}
 \usage{
 bash_ncols(f1, sep = ",")
 }
@@ -11,9 +11,9 @@ bash_ncols(f1, sep = ",")
 
 \item{sep}{File separator. Defaults to csv.}
 }
+\value{
+The number of columns
+}
 \description{
 Returns the number of columns in a file
-}
-\examples{
-cat_function()
 }

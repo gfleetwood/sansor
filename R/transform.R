@@ -1,143 +1,83 @@
 #' Remove Duplicated Columns
 #'
 #' Generates unique columns for a dataframe.
-#'
 #' @param df The dataframe to be modified.
 
 remove_col_dups <- function(df){
-    return(df[!duplicated(names(df), fromLast = TRUE)])
+
+    result <- df[!duplicated(names(df), fromLast = TRUE)]
+
+    return(result)
+
 }
 
+#' Replace With NA
+#'
+#' Replace a given value with NA
+#' @param df A dataframe A numeric/integer vector
+#' @param num_dp The value to replace by NA. The default is "".
+#' @return
 
-#' Init Project Function
+impute_with_na <- function(df, val = ""){
+
+        df[df == val] <- NA
+
+        return(df)
+
+}
+
+#' Min Max Scaler
 #'
 #' This function sets up all I need to start a new project.
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @keywords cats
-#' @export
-#' @examples
-#' mean_dp()
+#' @param vec The vector to scale
+#' @param max_ The max of the scale
+#' @param min_ THe min of the scale
+#' @return The scaled vector
 
-standard_scaler_vec <- function(x){
-    return((x - mean(x, na.rm = T))/sd(x, na.rm = T))
+min_max_scaler <- function(vec, max_, min_){
+
+    vec_std = (vec - min(vec, na.rm = T)) / (max(vec, na.rm = T) - min(vec, na.rm = T))
+    vec_scaled = vec_std * (max_ - min_) + min_
+
+    return(vec_scaled)
+
 }
 
-#' Init Project Function
+#' Get Dummies
 #'
-#' This function sets up all I need to start a new project.
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @keywords cats
-#' @export
-#' @examples
-#' mean_dp()
-
-standard_scaler_df <- function(x){
-    return((x - mean(x, na.rm = T))/sd(x, na.rm = T))
-}
-
-
-
-#' Init Project Function
-#'
-#' This function sets up all I need to start a new project.
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @keywords cats
-#' @export
-#' @examples
-#' mean_dp()
-
-min_max_scaler_vec <- function(x, max_, min_){
-    x_std = (x - min(x, na.rm = T)) / (max(x, na.rm = T) - min(x, na.rm = T))
-    x_scaled = x_std * (max_ - min_) + min_
-    return(X_scaled)
-}
-
-#' Init Project Function
-#'
-#' This function sets up all I need to start a new project.
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @keywords cats
-#' @export
-#' @examples
-#' mean_dp()
-
-min_max_scaler_df <- function(df, max_, min_){
-
-    df_other <- df %>%
-        select_if(
-            function(y) !is.numeric(y) & !is.integer(y)
-        )
-
-    df_num <- df %>%
-        select_if(
-            function(y) is.numeric(y) | is.integer(y)
-        )
-
-    result <- map_df(df_num, function (x) min_max_scaler_vec(x, max_, min_))
-    return(cbind(df_other, result))
-}
-
-#' Rounded Mean Function
-#'
-#' This function return the mean of vector to n decimal places while ignoring missing values.
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @keywords
-#' @export
-#' @examples
-#' mean_dp()
+#' Dummy a given categorical variable
+#' @param df A dataframe
+#' @param col Column name to be dummied as string
+#' @return The dummified dataframe
 
 get_dummies <- function(df, col){
 
     dmy <- dummyVars(paste("~", col), data = df)
     dummied_cols <- data.frame(predict(dmy, newdata = df))
-    df2 <- df %>% select_(paste("-", col)) %>% cbind(., dummied_cols)
+    result <- df %>% select_(paste("-", col)) %>% cbind(., dummied_cols)
 
-    return(df2)
+    return(result)
+
 }
 
-#' Rounded Mean Function
+#' Move Column
 #'
-#' This function return the mean of vector to n decimal places while ignoring missing values.
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @keywords
-#' @export
-#' @examples
-#' mean_dp()
+#' Move a dataframe's column to a given position.
+#' @param df A dataframe
+#' @param col_name THe name of the column to move
+#' @param pos The position to move the column to
+#' @result The dataframe with the column in the new position
 
 move_col <- function(df, col_name, pos){
 
     var <- enquo(col_name)
 
-    df <- df %>%
+    result <- df %>%
         add_column(temp = 1, .before = pos) %>%
         mutate(temp = !!var) %>%
         select(-!!var) %>%
         rename(!!var := temp)
 
-    return(df)
-
-}
-
-#' Rounded Mean Function
-#'
-#' This function return the mean of vector to n decimal places while ignoring missing values.
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @keywords
-#' @export
-#' @examples
-#' mean_dp()
-
-
-impute_with_na <- function(df, val = ""){
-
-    df[df == val] <- NA
-    return(df)
+    return(result)
 
 }
