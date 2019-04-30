@@ -1,8 +1,8 @@
-#' Interactive Correlation Map
-#'
-#' Produces an interactive correlation map of the numeric/integer variables
+#' @title Interactive Correlation Map
+#' @description Produces an interactive correlation map of the numeric/integer variables
 #' @param df A dataframe
 #' @return An interactive correlation map of the numeric/integer variables
+#' @export
 
 cor_interactive <- function(df){
 

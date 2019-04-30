@@ -11,6 +11,9 @@ impute_with_na(df, val = "")
 
 \item{num_dp}{The value to replace by NA. The default is "".}
 }
+\value{
+Data with NA in place of designated value
+}
 \description{
 Replace a given value with NA
 }

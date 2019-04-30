@@ -2,11 +2,11 @@ library(TSclust)
 library(parallelDist)
 library(rsample)
 
-#' Combined Model Diagnostics
-#'
-#' Combines tidy model diagnostics with the confidence intervals of the estimates
+#' @title Combined Model Diagnostics
+#' @description Combines tidy model diagnostics with the confidence intervals of the estimates
 #' @mdl A model object
 #' @return Tidy model diagnostics with the confidence intervals of the estimates
+#' @export
 
 model_diagnostics <- function(mdl){
 
@@ -16,13 +16,12 @@ model_diagnostics <- function(mdl){
 
 }
 
-#' Train Test Split
-#'
-#' This function sets up all I need to start a new project.
+#' @title Train Test Split
+#' @description This function sets up all I need to start a new project.
 #' @param df The dataframe to splitr
 #' @param ratio The fraction of data for training
 #' @return A list of the training and testing dataframes
-
+#' @export
 
 train_test_split <- function(df, ratio){
 
@@ -33,13 +32,13 @@ train_test_split <- function(df, ratio){
     return(list(train, test))
 }
 
-#' Time Series Clustering
-#'
-#' This function sets up all I need to start a new project.
+#' @title Time Series Clustering
+#' @description This function sets up all I need to start a new project.
 #' @param mat A matrix
 #' @param dist A distance measure. See the method arg in parallelDist::parDist for the supported parameters.
 #' @param linkage The type of linkage to use. See the method arg in TSclust::hclust for the supported parameters.
-#' @return
+#' @return The clustering results
+#' @export
 
 ts_clustering <- function(mat, dist = "dtw", linkage = "average"){
 

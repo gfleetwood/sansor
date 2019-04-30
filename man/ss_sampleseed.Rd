@@ -13,6 +13,9 @@ ss_sampleseed(df, frac, seed = 8)
 
 \item{seed}{The seed for the sampling}
 }
+\value{
+The sample of the data
+}
 \description{
 Produces a reproducible sample from a dataframe with
 }

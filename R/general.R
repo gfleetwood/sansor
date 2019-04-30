@@ -1,10 +1,10 @@
-#' Seed Sampling
-#'
-#' Produces a reproducible sample from a dataframe with
+#' @title Seed Sampling
+#' @description Produces a reproducible sample from a dataframe with
 #' @param df A dataframe
 #' @param frac The fraction
 #' @param seed The seed for the sampling
-#' @return
+#' @return The sample of the data
+#' @export
 
 ss_sampleseed <- function(df, frac, seed = 8){
 
@@ -15,45 +15,45 @@ ss_sampleseed <- function(df, frac, seed = 8){
 
 }
 
-#' Mode
-#'
-#' Calculates the statistical mode
+#' @title Mode
+#' @description Calculates the statistical mode
 #' @param vec A numeric/integer vector
 #' @return The mode of the submitted vector
+#' @export
 
 mode_stats <- function(vec){
     return((tabyl(vec) %>% arrange(desc(n)) %>% pull(1))[1])
 }
 
-#' Freedman–Diaconis Histogram Binning
-#'
-#' Uses the Freedman–Diaconis rule for optimal histogram binning
+#' @title Freedman–Diaconis Histogram Binning
+#' @description Uses the Freedman–Diaconis rule for optimal histogram binning
 #' @param col A numeric/integer vector
 #' @param num_dp The numeric of decimal places to round the mean to.
 #' @return The Freedman-Diaconis bins
+#' @export
 
 hist_fd_rule <- function(vec){
     return(diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3)))
 }
 
-#' Cohen's H
-#'
-#' Calculates Cohen's H for two probabilities or proportions.
+#' @title Cohen's H
+#' @description Calculates Cohen's H for two probabilities or proportions.
 #' @param p1 The first probability or proportion
 #' @param p2 The second probability or proportion
 #' @return
+#' @export
 
 cohens_h <- function(p1, p2){
     return(abs(2*(asin(sqrt(p1)) - asin(sqrt(p2)))))
 }
 
-#' Dynamic Formula Construction
-#'
-#' A simple dynamic formula constructor
+#' @title Dynamic Formula Construction
+#' @description A simple dynamic formula constructor
 #' @param target The LHS (left hand side) of the formula
 #' @param additions The columns to add
 #' @param substractions The columns to subtract
 #' @return A formula
+#' @export
 
 make_formula <- function(target, additions, subtractions = NULL){
 
@@ -69,11 +69,11 @@ make_formula <- function(target, additions, subtractions = NULL){
 
 }
 
-#' Outliers In Small Samples
-#'
-#' A function to find outliers in small samples. Method seen here: https://bit.ly/2DFmsJr
+#' @title Outliers In Small Samples
+#' @description A function to find outliers in small samples. Method seen here: https://bit.ly/2DFmsJr
 #' @param vec A numeric/integer vector
 #' @return A boolean vector of which values are and are not outliers
+#' @export
 
 outliers_ih <- function(vec){
 
@@ -84,12 +84,11 @@ outliers_ih <- function(vec){
 
 }
 
-#' Write Text File
-#'
-#' Helper function to write an object to txt
+#' @title Write Text File
+#' @description Helper function to write an object to txt
 #' @param obj The object to write
 #' @param fname The name of the file to write to
-#' @return
+#' @export
 
 write_txt <- function(obj, fname){
 

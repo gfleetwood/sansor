@@ -2,7 +2,7 @@
 % Please edit documentation in R/bash_wrappers.R
 \name{bash_col_mean}
 \alias{bash_col_mean}
-\title{Column Mean}
+\title{Mean}
 \usage{
 bash_col_mean(f1, col)
 }

@@ -9,6 +9,9 @@ remove_col_dups(df)
 \arguments{
 \item{df}{The dataframe to be modified.}
 }
+\value{
+The data with duplicated columns removed
+}
 \description{
 Generates unique columns for a dataframe.
 }

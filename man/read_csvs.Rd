@@ -9,6 +9,9 @@ read_csvs(path)
 \arguments{
 \item{path}{The path to the csvs to read in}
 }
+\value{
+All the data in a single dataframe
+}
 \description{
 This function takes a path and reads all the csvs in it into a single dataframe.
 }
