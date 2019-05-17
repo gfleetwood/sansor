@@ -13,5 +13,17 @@ cor_interactive <- function(df){
             colorscale = "Greys", type = "heatmap")
 
     return(result)
+
 }
 
+#' @title Freedman–Diaconis Histogram Binning
+#' @description Uses the Freedman–Diaconis rule for optimal histogram binning.
+#' Also see: https://stats.stackexchange.com/questions/798/calculating-optimal-number-of-bins-in-a-histogram/862#862
+#' @param col A numeric/integer vector
+#' @param num_dp The numeric of decimal places to round the mean to.
+#' @return The Freedman-Diaconis bins
+#' @export
+
+fd_binning <- function(vec){
+    return(diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3)))
+}

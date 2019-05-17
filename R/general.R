@@ -25,17 +25,6 @@ mode_stats <- function(vec){
     return((tabyl(vec) %>% arrange(desc(n)) %>% pull(1))[1])
 }
 
-#' @title Freedman–Diaconis Histogram Binning
-#' @description Uses the Freedman–Diaconis rule for optimal histogram binning
-#' @param col A numeric/integer vector
-#' @param num_dp The numeric of decimal places to round the mean to.
-#' @return The Freedman-Diaconis bins
-#' @export
-
-hist_fd_rule <- function(vec){
-    return(diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3)))
-}
-
 #' @title Cohen's H
 #' @description Calculates Cohen's H for two probabilities or proportions.
 #' @param p1 The first probability or proportion
