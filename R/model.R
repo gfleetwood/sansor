@@ -8,6 +8,43 @@ library(rsample)
 #' @return Tidy model diagnostics with the confidence intervals of the estimates
 #' @export
 
+create_train_test_split <- function(df, prob = .8){
+
+    split <- caret::createDataPartition(
+        y = df$target, p = prob, list = F)
+
+    train <- df %>% slice(split) %>% mutate(label = "train")
+    test <- df %>% slice(-split) %>% mutate(label = "test")
+
+    result <- rbind(train, test) %>% group_by(label) %>% nest()
+
+    return(result)
+
+}
+
+#' @title Combined Model Diagnostics
+#' @description Combines tidy model diagnostics with the confidence intervals of the estimates
+#' @mdl A model object
+#' @return Tidy model diagnostics with the confidence intervals of the estimates
+#' @export
+
+read_train_test_split <- function(df){
+
+    result <- df %>%
+        filter(label == "train") %>%
+        pull(data) %>%
+        magrittr::extract2(1)
+
+    return(result)
+
+}
+
+#' @title Combined Model Diagnostics
+#' @description Combines tidy model diagnostics with the confidence intervals of the estimates
+#' @mdl A model object
+#' @return Tidy model diagnostics with the confidence intervals of the estimates
+#' @export
+
 model_diagnostics <- function(mdl){
 
     result <- inner_join(broom::tidy(mdl), tidy(confint(mdl)), by = c("term" = ".rownames"))
