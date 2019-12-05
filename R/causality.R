@@ -9,6 +9,9 @@ library(causaleffect)
 library(igraph)
 library(latex2exp)
 
+pc_alg <- bnlearn::pc.stable(df)
+pc_alg %>% pull(arcs) %>% data.frame() %>% write_csv("pc-dag-edges.csv")
+
 # Given a two sided formula of the form "a ~ b" the user can choose to recover "a" or "b"
 get_node <- function(formula_str, loc){
 
