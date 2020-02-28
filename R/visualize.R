@@ -7,10 +7,12 @@
 cor_interactive <- function(df){
 
     result <- df %>%
-        select_if( function(x) is.numeric(x) | is.integer(x)) %>%
+        select_if(function(x) is.numeric(x) | is.integer(x)) %>%
         cor() %>%
-        plot_ly(x = rownames(.), y = rownames(.), z = .,
-            colorscale = "Greys", type = "heatmap")
+        plot_ly(
+            x = rownames(.), y = rownames(.), z = .,
+            colorscale = "Greys", type = "heatmap"
+            )
 
     return(result)
 
@@ -25,5 +27,9 @@ cor_interactive <- function(df){
 #' @export
 
 fd_binning <- function(vec){
-    return(diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3)))
+
+    result <- diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3))
+
+    return(result)
+
 }

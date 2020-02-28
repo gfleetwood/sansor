@@ -15,7 +15,7 @@ remove_col_dups <- function(df){
 #' @title Replace With NA
 #' @description Replace a given value with NA
 #' @param df A dataframe A numeric/integer vector
-#' @param num_dp The value to replace by NA. The default is "".
+#' @param val The value to replace by NA. The default is "".
 #' @return Data with NA in place of designated value
 #' @export
 
@@ -55,7 +55,9 @@ get_dummies <- function(df, col){
 
     dmy <- dummyVars(paste("~", col), data = df)
     dummied_cols <- data.frame(predict(dmy, newdata = df))
-    result <- df %>% select_(paste("-", col)) %>% cbind(., dummied_cols)
+    result <- df %>%
+        select_(paste("-", col)) %>%
+        cbind(., dummied_cols)
 
     return(result)
 

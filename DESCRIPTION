@@ -1,13 +1,18 @@
 Package: sansor
-Title: What the Package Does (one line, title case)
+Title: Data Science Utility Functions
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Gordon", "Fleetwood", email = "gfleetwood@protonmail.com", role = c("aut", "cre"))
+Description: Mostly Data Science utility functions.
 Depends: R (>= 3.4.3)
-License: What license is it under?
+License: MIT
+URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+BugReports: https://github.com/tidyverse/dplyr/issues
+Imports: 
+    ellipsis,
+    glue (>= 1.3.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests: 
     knitr,
     rmarkdown

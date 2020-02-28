@@ -1,7 +1,3 @@
-library(TSclust)
-library(parallelDist)
-library(rsample)
-
 #' @title Combined Model Diagnostics
 #' @description Combines tidy model diagnostics with the confidence intervals of the estimates
 #' @mdl A model object
@@ -10,30 +6,21 @@ library(rsample)
 
 create_train_test_split <- function(df, prob = .8){
 
+    # split <- initial_split(data, prop = ratio)
+    # train <- training(data_split)
+    # test  <- testing(data_split)
+
     split <- caret::createDataPartition(
         y = df$target, p = prob, list = F)
 
-    train <- df %>% slice(split) %>% mutate(label = "train")
-    test <- df %>% slice(-split) %>% mutate(label = "test")
+    train <- df %>%
+        slice(split) %>%
+        mutate(label = "train")
+    test <- df %>%
+        slice(-split) %>%
+        mutate(label = "test")
 
-    result <- rbind(train, test) %>% group_by(label) %>% nest()
-
-    return(result)
-
-}
-
-#' @title Combined Model Diagnostics
-#' @description Combines tidy model diagnostics with the confidence intervals of the estimates
-#' @mdl A model object
-#' @return Tidy model diagnostics with the confidence intervals of the estimates
-#' @export
-
-read_train_test_split <- function(df){
-
-    result <- df %>%
-        filter(label == "train") %>%
-        pull(data) %>%
-        magrittr::extract2(1)
+    result <- rbind(train, test)
 
     return(result)
 
@@ -47,26 +34,10 @@ read_train_test_split <- function(df){
 
 model_diagnostics <- function(mdl){
 
-    result <- inner_join(broom::tidy(mdl), tidy(confint(mdl)), by = c("term" = ".rownames"))
+    result <- inner_join(tidy(mdl), tidy(confint(mdl)), by = c("term" = ".rownames"))
 
     return(result)
 
-}
-
-#' @title Train Test Split
-#' @description This function sets up all I need to start a new project.
-#' @param df The dataframe to splitr
-#' @param ratio The fraction of data for training
-#' @return A list of the training and testing dataframes
-#' @export
-
-train_test_split <- function(df, ratio){
-
-    split <- initial_split(data, prop = ratio)
-    train <- training(data_split)
-    test  <- testing(data_split)
-
-    return(list(train, test))
 }
 
 #' @title Time Series Clustering
@@ -85,9 +56,4 @@ ts_clustering <- function(mat, dist = "dtw", linkage = "average"){
     return(stories_clust)
 
 }
-
-
-
-
-
 

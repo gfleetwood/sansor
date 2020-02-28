@@ -25,10 +25,8 @@ read_csvs <- function(path){
 read_csv_sample <- function(fname, nrows, seed = 8, header = "-r"){
 
     sample <- system(glue("subsample {header} -s {seed} -n {nrows} {fname}"), intern = T)
-
     # Convert the character vector into a string
     sample_cleaned <- paste(sample, collapse = '\n')
-
     result <- read_csv(sample_cleaned)
 
     return(result)

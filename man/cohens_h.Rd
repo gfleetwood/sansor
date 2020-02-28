@@ -11,6 +11,9 @@ cohens_h(p1, p2)
 
 \item{p2}{The second probability or proportion}
 }
+\value{
+
+}
 \description{
 Calculates Cohen's H for two probabilities or proportions.
 }

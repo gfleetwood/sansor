@@ -9,7 +9,7 @@ impute_with_na(df, val = "")
 \arguments{
 \item{df}{A dataframe A numeric/integer vector}
 
-\item{num_dp}{The value to replace by NA. The default is "".}
+\item{val}{The value to replace by NA. The default is "".}
 }
 \value{
 Data with NA in place of designated value

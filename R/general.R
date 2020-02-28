@@ -22,7 +22,14 @@ ss_sampleseed <- function(df, frac, seed = 8){
 #' @export
 
 mode_stats <- function(vec){
-    return((tabyl(vec) %>% arrange(desc(n)) %>% pull(1))[1])
+
+    result <- tabyl(vec) %>%
+        arrange(desc(n)) %>%
+        pull(1) %>%
+        pluck(1)
+
+    return(result)
+
 }
 
 #' @title Cohen's H
@@ -33,7 +40,11 @@ mode_stats <- function(vec){
 #' @export
 
 cohens_h <- function(p1, p2){
-    return(abs(2*(asin(sqrt(p1)) - asin(sqrt(p2)))))
+
+    results <- abs(2*(asin(sqrt(p1)) - asin(sqrt(p2))))
+
+    return(result)
+
 }
 
 #' @title Dynamic Formula Construction
@@ -47,10 +58,14 @@ cohens_h <- function(p1, p2){
 make_formula <- function(target, additions, subtractions = NULL){
 
     vars_sum <- paste0(additions, collapse = ' + ')
-    vars_subtract <- ifelse(is.null(subtractions), NULL, paste0(subtractions, collapse = ' - '))
-    rhs <- ifelse(is.null(vars_subtract),
-                  vars_sum,
-                  paste(vars_sum, vars_subtract, sep = " + "))
+    vars_subtract <- ifelse(
+        is.null(subtractions), NULL, paste0(subtractions, collapse = ' - ')
+        )
+    rhs <- ifelse(
+        is.null(vars_subtract),
+        vars_sum,
+        paste(vars_sum, vars_subtract, sep = " + ")
+        )
 
     result <- as.formula(paste(target, rhs, sep = ' ~ '))
 
