@@ -14,8 +14,8 @@ ts_clustering(mat, dist = "dtw", linkage = "average")
 \item{linkage}{The type of linkage to use. See the method arg in TSclust::hclust for the supported parameters.}
 }
 \value{
-The clustering results
+A hierarchical cluster object
 }
 \description{
-This function sets up all I need to start a new project.
+Hierarchical clustering for time series with dynamic time warping.
 }

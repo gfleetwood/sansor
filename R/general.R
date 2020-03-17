@@ -102,3 +102,64 @@ write_txt <- function(obj, fname){
 
 }
 
+#' @title Recursive Function Builder
+#' @description Recursively creates partial functions to intake each
+#' formula except the last. For the last formula evaluation takes place
+#' @param func Name/path of the file
+#' @param args
+#' @return A hierarchical partial function
+#' @export
+
+partial_recursive <- function(func, args){
+
+    if(length(args) == 1) return(func(as.formula(args[1])))
+
+    func <- partial_recursive(
+        partial(func, as.formula(head(args, 1))),
+        tail(args, -1)
+    )
+
+    return(func)
+
+}
+
+#' @title Dataframe Equality
+#' @description Checks if two dataframes are equal.
+#' @param df1 A dataframe
+#' @param df2 The second dataframe
+#' @return TRUE if the dataframes are equal else FALSE
+#' @export
+
+dfs_equal <- function(df1, df2){
+
+    # Removes NAs so the equality check isn't thrown off
+
+    vec_compare <- function(df, col_loc) {
+
+        result <- df %>%
+            pull(col_loc) %>%
+            keep(~ !is.na(.x))
+
+        return(result)
+
+    }
+
+    # Check the base case where the dataframes should have the same shape
+    if(all(dim(df1) !=  dim(df2))) return(0)
+
+    n_cols <- seq(1, ncol(df1))
+
+    result <- n_cols %>%
+        map_lgl(
+            ~ all(vec_compare(df1, .x) == vec_compare(df2, .x))
+        ) %>%
+        all()
+
+    return(result)
+
+}
+
+
+
+
+

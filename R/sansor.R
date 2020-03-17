@@ -1,13 +1,7 @@
-#' foo: A package for computating the notorious bar statistic.
-#'
-#' The foo package provides three categories of important functions:
-#' foo, bar and baz.
-#'
-#' @section Foo functions:
-#' The foo functions ...
+#' sansor: An eclectic mix of Data Science scripts.
 #'
 #' @docType package
-#' @name foo
+#' @name sansor
 #' @import tidyverse
 #' @import purrrlyr
 #' @import TSclust

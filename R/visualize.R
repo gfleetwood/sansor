@@ -1,3 +1,20 @@
+#' @title Correlation Heatmap
+#' @description
+#' @param df A dataframe
+#' @return A correlation heatmap of the numeric columns of the dataframe.
+#' @export
+
+heat_map <- function(df){
+
+    result <- df %>%
+        select_if(is.numeric) %>%
+        cor() %>%
+        corrplot(method = "circle", is.corr = FALSE)
+
+    return(result)
+
+}
+
 #' @title Interactive Correlation Map
 #' @description Produces an interactive correlation map of the numeric/integer variables
 #' @param df A dataframe
