@@ -1,3 +1,18 @@
+detect_outliers_mad <- function(group, interval = 2){
+  
+  med = median(group)
+  mad_ = mad(group)
+  lower_bnd = med - interval*mad_
+  upper_bnd = med + interval*mad_
+  results <- between(group, lower_bnd, upper_bnd)
+  
+  # The inversion is necessary to have the outliers labeled at 1 instead of 0
+  results_inverted <- as.integer(1 - results)
+  
+  return(results_inverted)
+  
+}
+
 check_key <- function(dict, key){
 
     result <- ifelse(key %in% names(fromJSON(dict)), fromJSON(dict)[key], NA)
