@@ -2,7 +2,7 @@
 % Please edit documentation in R/causality.R
 \name{get_children}
 \alias{get_children}
-\title{}
+\title{Hold}
 \usage{
 get_children(dag, parent)
 }
@@ -13,5 +13,5 @@ get_children(dag, parent)
 A dataframe with NAs instead of #NULLs and empty strings.
 }
 \description{
-
+Hold
 }

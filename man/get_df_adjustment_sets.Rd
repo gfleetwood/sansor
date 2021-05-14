@@ -2,7 +2,7 @@
 % Please edit documentation in R/causality.R
 \name{get_df_adjustment_sets}
 \alias{get_df_adjustment_sets}
-\title{}
+\title{Hold}
 \usage{
 get_df_adjustment_sets(dag)
 }

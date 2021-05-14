@@ -1,53 +1,60 @@
-detect_outliers_mad <- function(group, interval = 2){
-  
-  med = median(group)
-  mad_ = mad(group)
-  lower_bnd = med - interval*mad_
-  upper_bnd = med + interval*mad_
-  results <- between(group, lower_bnd, upper_bnd)
-  
-  # The inversion is necessary to have the outliers labeled at 1 instead of 0
-  results_inverted <- as.integer(1 - results)
-  
-  return(results_inverted)
-  
+write_tbl_to_db <- function(data, schema, tbl_name){
+
+    tbl <- read_csv(tbl_path)
+
+    dbWriteTable(
+        con,
+        DBI::Id(schema = schema, table = tbl_name),
+        data
+    )
+
+    return(TRUE)
+
 }
 
-check_key <- function(dict, key){
+reddit_code_formatting <- function(code_as_str){
 
-    result <- ifelse(key %in% names(fromJSON(dict)), fromJSON(dict)[key], NA)
+    result <- code_as_str %>%
+        str_split("\n") %>%
+        map(~ glue("    {.x}"))
 
     return(result)
 
 }
 
-create_db_doc_template <- function(con){
 
-    tbls <- odbc::dbListTables(con)
-    # DBI::dbReadTable(con_pg, tbls[1])
+md_tbl_to_df <- function(md_tbl){
+  
+  md_tbl_cleaned <- md_tbl %>% str_split("\n") %>% pluck(1) %>%
+  discard(~ (nchar(.x) == 0) | str_detect(.x, "\\|---"))
+  
+  header <- md_tbl_cleaned[1]
+  body <- md_tbl_cleaned[2:length(md_tbl_cleaned)]
+  
+  header_cleaned <- header %>% str_split("\\|") %>% pluck(1) %>% discard(~ nchar(.x) == 0) %>% 
+    map_chr(~ trimws(.x)) %>% map_chr(~ janitor::make_clean_names(.x))
+  
+  body_cleaned <- body %>% str_split("\\|") %>% map(~ discard(.x, ~ nchar(.x) == 0)) %>% 
+    map(~ map_chr(.x, ~ trimws(.x)))
+  
+  md_tbl_df <- body_cleaned %>% transpose() %>% map(~ unlist(.x)) %>% 
+    set_names(header_cleaned) %>% data.frame()
 
-    docs_template <- data.frame(tables = tbls, stringsAsFactors = FALSE) %>%
-        mutate(schema = "public") %>%
-        select(schema, tables) %>%
-        purrrlyr::by_row(
-            function(x) dbListFields(con, pull(x, tables)),
-            .collate = "rows",
-            .to = "column"
-        ) %>%
-        select(-.row) %>%
-        mutate(description = "")
-
-    return(docs_template)
-
+  return(md_tbl_df)
+  
 }
 
-extract_json <- function(df){
+library(usethis)
 
-    result <- df %>%
-        mutate(
-            col_new = unlist(future_map(col, ~ check_key(.x, "")))
-        )
+ls_funcs <- function(pkg){
 
-    return(result)
+  result <- glue::glue("package:{pkg}") %>%
+    lsf.str() %>%
+    toString() %>%
+    stringr::str_split(", ") %>%
+    data.frame() %>%
+    dplyr::rename("functions" = 1)
+
+  return(result)
 
 }

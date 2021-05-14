@@ -2,7 +2,7 @@
 % Please edit documentation in R/causality.R
 \name{get_adjustment_sets}
 \alias{get_adjustment_sets}
-\title{}
+\title{Hold}
 \usage{
 get_adjustment_sets(dag, parent, child, effect = "direct")
 }
@@ -13,5 +13,5 @@ get_adjustment_sets(dag, parent, child, effect = "direct")
 A dataframe with NAs instead of #NULLs and empty strings.
 }
 \description{
-
+Hold
 }

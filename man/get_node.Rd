@@ -2,7 +2,7 @@
 % Please edit documentation in R/causality.R
 \name{get_node}
 \alias{get_node}
-\title{}
+\title{Hold}
 \usage{
 get_node(formula_str, loc)
 }
@@ -13,5 +13,5 @@ get_node(formula_str, loc)
 A dataframe with NAs instead of #NULLs and empty strings.
 }
 \description{
-
+Hold
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/causality.R
 \name{get_dag_formulas}
 \alias{get_dag_formulas}
-\title{}
+\title{Hold}
 \usage{
 get_dag_formulas(pc_gauss)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/causality.R
 \name{causal_disc_to_daggity}
 \alias{causal_disc_to_daggity}
-\title{}
+\title{Hold}
 \usage{
 causal_disc_to_daggity(func, args)
 }

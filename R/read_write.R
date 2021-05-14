@@ -32,3 +32,46 @@ read_csv_sample <- function(fname, nrows, seed = 8, header = "-r"){
     return(result)
 
 }
+
+#' @title TBL To DB
+#' @description U
+#' @param con DB connection
+#' @param schema Schema name
+#' @param tbl_path The path to the table
+#' @return The df variable without the anomalous columns
+#' @export
+
+write_tbl_to_db <- function(con, schema, tbl_path){
+
+    tbl <- read_csv(tbl_path)
+    dbWriteTable(con, DBI::Id(schema = schema, table = basename(tbl_path)), tbl)
+
+    return(TRUE)
+
+}
+
+#' @title Create Schema
+#' @description U
+#' @param con DB connection
+#' @param schema Schema name
+#' @return The df variable without the anomalous columns
+#' @export
+
+create_schema <- function(con, schema){
+
+    dbGetQuery(
+        con,
+        glue::glue("
+    IF NOT EXISTS (
+    SELECT schema_name FROM information_schema.schemata
+    WHERE schema_name = '{schema}'
+    )
+    BEGIN
+	    EXEC('CREATE SCHEMA {schema}')
+    END
+    ")
+    )
+
+    return(TRUE)
+
+}

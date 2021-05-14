@@ -2,7 +2,7 @@
 % Please edit documentation in R/causality.R
 \name{pc_algo}
 \alias{pc_algo}
-\title{}
+\title{Hold}
 \usage{
 pc_algo(df)
 }
@@ -13,5 +13,5 @@ pc_algo(df)
 A dataframe with NAs instead of #NULLs and empty strings.
 }
 \description{
-
+Hold
 }

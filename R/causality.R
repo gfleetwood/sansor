@@ -2,6 +2,7 @@
 #' @description
 #' @param df A dataframe
 #' @return A dataframe with NAs instead of #NULLs and empty strings.
+#' @export
 
 pc_algo <- function(df){
 
@@ -18,6 +19,7 @@ pc_algo <- function(df){
 #' @description
 #' @param df A dataframe
 #' @return A dataframe with NAs instead of #NULLs and empty strings.
+#' @export
 
 # Given a two sided formula of the form "a ~ b" the user can choose to recover "a" or "b"
 get_node <- function(formula_str, loc){
@@ -33,6 +35,7 @@ get_node <- function(formula_str, loc){
 #' to intake each formula except the last
 #' @param df A dataframe
 #' @return A dataframe with NAs instead of #NULLs and empty strings.
+#' @export
 
 causal_disc_to_daggity <- function(func, args){
 
@@ -48,6 +51,7 @@ causal_disc_to_daggity <- function(func, args){
 #' @description Extracts child-parent relationships from object created with the pc algorithm
 #' @param df A dataframe
 #' @return A dataframe with NAs instead of #NULLs and empty strings.
+#' @export
 
 get_dag_formulas <- function(pc_gauss){
 
@@ -68,6 +72,7 @@ get_dag_formulas <- function(pc_gauss){
 # The causal effect of parent on child is identifiable controlling for adjustment set
 #' @param df A dataframe
 #' @return A dataframe with NAs instead of #NULLs and empty strings.
+#' @export
 
 get_df_adjustment_sets <- function(dag){
 
@@ -92,6 +97,7 @@ get_df_adjustment_sets <- function(dag){
 #' @description
 #' @param df A dataframe
 #' @return A dataframe with NAs instead of #NULLs and empty strings.
+#' @export
 
 get_children <- function(dag, parent){
 
@@ -109,6 +115,7 @@ get_children <- function(dag, parent){
 #' @description
 #' @param df A dataframe
 #' @return A dataframe with NAs instead of #NULLs and empty strings.
+#' @export
 
 get_adjustment_sets <- function(dag, parent, child, effect = "direct"){
 
