@@ -82,7 +82,7 @@ model_diagnostics <- function(mdl){
 #' @return A hierarchical cluster object
 #' @export
 
-ts_clustering <- function(mat, dist = "dtw", linkage = "average"){
+time_series_clustering <- function(mat, dist = "dtw", linkage = "average"){
 
     mat_dist <- parDist(x = mat, method = dist)
     result <- hclust(mat_dist, method = linkage)

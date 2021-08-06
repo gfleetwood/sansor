@@ -4,26 +4,11 @@
 #' @return The data with duplicated columns removed
 #' @export
 
-remove_col_dups <- function(df){
+remove_duplicate_cols <- function(df){
 
     result <- df[!duplicated(names(df), fromLast = TRUE)]
 
     return(result)
-
-}
-
-#' @title Replace With NA
-#' @description Replace a given value with NA
-#' @param df A dataframe A numeric/integer vector
-#' @param val The value to replace by NA. The default is "".
-#' @return Data with NA in place of designated value
-#' @export
-
-impute_with_na <- function(df, val = ""){
-
-        df[df == val] <- NA
-
-        return(df)
 
 }
 
@@ -60,64 +45,6 @@ get_dummies <- function(df, col){
         cbind(., dummied_cols)
 
     return(result)
-
-}
-
-#' @title Move Column
-#' @description Move a dataframe's column to a given position.
-#' @param df A dataframe
-#' @param col_name THe name of the column to move
-#' @param pos The position to move the column to
-#' @result The dataframe with the column in the new position
-#' @export
-
-move_col <- function(df, col_name, pos){
-
-    var <- enquo(col_name)
-
-    result <- df %>%
-        add_column(temp = 1, .before = pos) %>%
-        mutate(temp = !!var) %>%
-        select(-!!var) %>%
-        rename(!!var := temp)
-
-    return(result)
-
-}
-
-#' @title Date Decomposition
-#' @description Given a date column this function separates the day, month, and year
-#' into new columns
-#' @param f1 Name/path of the file
-#' @export
-
-date_decomposition <- function(df, col_name){
-
-    result <- mutate(
-        df,
-        day = day(!!sym(col_name)),
-        month =month(!!sym(col_name)),
-        year = year(!!sym(col_name))
-    )
-
-    return(result)
-
-}
-
-#' @title NULL to NA Conversion
-#' @description Function to convert GSheets #NULL values and
-#' empty strings to NAs.
-#' @param df A dataframe
-#' @return A dataframe with NAs instead of #NULLs and empty strings.
-#' @export
-
-na_conversion <- function(df){
-
-    result <- df %>%
-        map_df(~ ifelse(.x == "#NULL!", NA, .x)) %>%
-        map_df(~ ifelse(.x == "", NA, .x))
-
-    return(df)
 
 }
 
@@ -170,6 +97,7 @@ update_label_nas <- function(df){
     update_label_na <- function(df, col_with_na){
 
         col_new <- paste(col_with_na, "is_na", sep = "_")
+
         result <- mutate(
             df,
             {{col_new}} := ifelse(is.na((!!sym(col_with_na))), 1, 0)

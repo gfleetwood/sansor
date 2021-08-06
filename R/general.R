@@ -47,32 +47,6 @@ cohens_h <- function(p1, p2){
 
 }
 
-#' @title Dynamic Formula Construction
-#' @description A simple dynamic formula constructor
-#' @param target The LHS (left hand side) of the formula
-#' @param additions The columns to add
-#' @param substractions The columns to subtract
-#' @return A formula
-#' @export
-
-make_formula <- function(target, additions, subtractions = NULL){
-
-    vars_sum <- paste0(additions, collapse = ' + ')
-    vars_subtract <- ifelse(
-        is.null(subtractions), NULL, paste0(subtractions, collapse = ' - ')
-        )
-    rhs <- ifelse(
-        is.null(vars_subtract),
-        vars_sum,
-        paste(vars_sum, vars_subtract, sep = " + ")
-        )
-
-    result <- as.formula(paste(target, rhs, sep = ' ~ '))
-
-    return(result)
-
-}
-
 #' @title Outliers In Small Samples
 #' @description A function to find outliers in small samples. Method seen here: https://bit.ly/2DFmsJr
 #' @param vec A numeric/integer vector
@@ -101,28 +75,6 @@ write_txt <- function(obj, fname){
     close(con)
 
 }
-
-#' @title Recursive Function Builder
-#' @description Recursively creates partial functions to intake each
-#' formula except the last. For the last formula evaluation takes place
-#' @param func Name/path of the file
-#' @param args
-#' @return A hierarchical partial function
-#' @export
-
-partial_recursive <- function(func, args){
-
-    if(length(args) == 1) return(func(as.formula(args[1])))
-
-    func <- partial_recursive(
-        partial(func, as.formula(head(args, 1))),
-        tail(args, -1)
-    )
-
-    return(func)
-
-}
-
 #' @title Dataframe Equality
 #' @description Checks if two dataframes are equal.
 #' @param df1 A dataframe
@@ -211,32 +163,5 @@ detect_outliers_mad <- function(group, interval = 2){
     results_inverted <- as.integer(1 - results)
 
     return(results_inverted)
-
-}
-
-#' @title create_db_doc_template
-#' @description Checks if two dataframes are equal.
-#' @param df1 A dataframe
-#' @param df2 The second dataframe
-#' @return TRUE if the dataframes are equal else FALSE
-#' @export
-
-create_db_doc_template <- function(con){
-
-    tbls <- odbc::dbListTables(con)
-    # DBI::dbReadTable(con_pg, tbls[1])
-
-    docs_template <- data.frame(tables = tbls, stringsAsFactors = FALSE) %>%
-        mutate(schema = "public") %>%
-        select(schema, tables) %>%
-        purrrlyr::by_row(
-            function(x) dbListFields(con, pull(x, tables)),
-            .collate = "rows",
-            .to = "column"
-        ) %>%
-        select(-.row) %>%
-        mutate(description = "")
-
-    return(docs_template)
 
 }
