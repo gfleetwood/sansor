@@ -50,3 +50,5 @@ fd_binning <- function(vec){
     return(result)
 
 }
+
+

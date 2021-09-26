@@ -1,7 +1,3 @@
-library(rdrop2)
-library(tidyverse)
-library(glue)
-
 md_tbl_to_df <- function(md_tbl){
   
   md_tbl_cleaned <- md_tbl %>% str_split("\n") %>% pluck(1) %>%
@@ -35,41 +31,4 @@ ls_funcs <- function(pkg){
   return(result)
 
 }
-
-rename_file <- function(index, file_path){
-
-  target_file_path <- str_replace(file_path, "", "")
-  
-  print(index)
-  print(file_path)
-  
-  drop_move(file_path, target_file_path)
-  
-  return(TRUE)
-  
-}
-
-rename_mv_file <- function(index, file_path, target_file_path){
-
-  # target_file_path <- glue("{target_dir}/{basename(file_path)}")
-  # target_file_path <- str_replace(file_path, "slot7", "slot4")
-  
-  print(index)
-  print(file_path)
-  print(target_file_path)
-  
-  drop_move(file_path, target_file_path)
-  
-  return(TRUE)
-  
-}
-
-#source_dir <- ""
-#target_dir <- ""
-
-#files <- drop_dir(target_dir)
-
-#foo <- files %>%
-#  pull(path_display) %>%
-#  map2(1:length(.), ., rename_file)
   

@@ -12,23 +12,6 @@ remove_duplicate_cols <- function(df){
 
 }
 
-#' @title Min Max Scaler
-#' @description This function sets up all I need to start a new project.
-#' @param vec The vector to scale
-#' @param max_ The max of the scale
-#' @param min_ THe min of the scale
-#' @return The scaled vector
-#' @export
-
-min_max_scaler <- function(vec, max_, min_){
-
-    vec_std = (vec - min(vec, na.rm = T)) / (max(vec, na.rm = T) - min(vec, na.rm = T))
-    vec_scaled = vec_std * (max_ - min_) + min_
-
-    return(vec_scaled)
-
-}
-
 #' @title Get Dummies
 #' @description Dummy a given categorical variable
 #' @param df A dataframe
@@ -40,6 +23,7 @@ get_dummies <- function(df, col){
 
     dmy <- dummyVars(paste("~", col), data = df)
     dummied_cols <- data.frame(predict(dmy, newdata = df))
+
     result <- df %>%
         select_(paste("-", col)) %>%
         cbind(., dummied_cols)
