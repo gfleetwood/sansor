@@ -133,4 +133,14 @@ ls_funcs <- function(pkg){
   return(result)
 
 }
+
+create_iso8601_dates <- function(vec){
+
+  payload <- vec %>% map(
+    ~ .x %>% as.POSIXct(format = "%d-%b-%Y %H:%M") %>% format_ISO8601()
+  ) %>% unlist()
+
+  return(payload)
+
+}
   
