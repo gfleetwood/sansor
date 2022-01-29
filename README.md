@@ -1,9 +1,7 @@
-# sansor
-
-## Overview
+# Overview
 
 A general purpose library for my data processing needs.
 
-## Installation
+# Installation
 
 `devtools::install_github("gfleetwood/sansor")`
