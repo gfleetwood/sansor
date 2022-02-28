@@ -4,14 +4,13 @@
 #' @return The mode of the submitted vector
 #' @export
 
-create_mode_statistic <- function(vec){
+read_mode <- function(vec){
 
-    result <- tabyl(vec) %>%
+    vec %>% 
+        tabyl() %>%
         arrange(desc(n)) %>%
         pull(1) %>%
         pluck(1)
-
-    return(result)
 
 }
 

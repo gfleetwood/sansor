@@ -10,9 +10,7 @@ heat_map <- function(df){
         select_if(is.numeric) %>%
         cor() %>%
         corrplot(method = "circle", is.corr = FALSE)
-
-    return(result)
-
+        
 }
 
 #' @title Interactive Correlation Map
@@ -31,8 +29,6 @@ cor_interactive <- function(df){
             colorscale = "Greys", type = "heatmap"
             )
 
-    return(result)
-
 }
 
 #' @title Freedman–Diaconis Histogram Binning
@@ -45,9 +41,7 @@ cor_interactive <- function(df){
 
 fd_binning <- function(vec){
 
-    result <- diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3))
-
-    return(result)
+    diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3))
 
 }
 
