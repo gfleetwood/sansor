@@ -4,31 +4,23 @@
 #' @return A correlation heatmap of the numeric columns of the dataframe.
 #' @export
 
-heat_map <- function(df){
+heat_map = function(df, interactive = FALSE){
 
-    result <- df %>%
+    mat = df %>%
         select_if(is.numeric) %>%
-        cor() %>%
-        corrplot(method = "circle", is.corr = FALSE)
+        cor() 
         
-}
-
-#' @title Interactive Correlation Map
-#' @description Produces an interactive correlation map of the numeric/integer variables
-#' @param df A dataframe
-#' @return An interactive correlation map of the numeric/integer variables
-#' @export
-
-cor_interactive <- function(df){
-
-    result <- df %>%
-        select_if(function(x) is.numeric(x) | is.integer(x)) %>%
-        cor() %>%
-        plot_ly(
-            x = rownames(.), y = rownames(.), z = .,
+    interactive_flag = ifelse(interactive, "T", "F")
+    
+    switch(
+    interactive_flag,
+    "T" = corrplot(mat, method = "circle", is.corr = FALSE)
+    "F" = plot_ly(
+            x = rownames(mat), y = rownames(mat), z = mat,
             colorscale = "Greys", type = "heatmap"
-            )
-
+            )  
+    )
+              
 }
 
 #' @title Freedman–Diaconis Histogram Binning
@@ -39,10 +31,6 @@ cor_interactive <- function(df){
 #' @return The Freedman-Diaconis bins
 #' @export
 
-fd_binning <- function(vec){
-
-    diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3))
-
-}
+freedman_diaconis_hist_bins = function(vec) diff(range(vec)) / (2 * IQR(vec) / length(vec)^(1/3))
 
 

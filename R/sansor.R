@@ -12,6 +12,6 @@
 #' @import causaleffect
 #' @import igraph
 #' @import latex2exp
-#' @import dplyr
 #' @import glue
+#' @import tools
 NULL

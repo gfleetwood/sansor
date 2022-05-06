@@ -4,7 +4,7 @@
 #' @return The mode of the submitted vector
 #' @export
 
-read_mode <- function(vec){
+read_mode = function(vec){
 
     vec %>% 
         tabyl() %>%
@@ -21,13 +21,7 @@ read_mode <- function(vec){
 #' @return
 #' @export
 
-create_cohens_h <- function(p1, p2){
-
-    results <- abs(2*(asin(sqrt(p1)) - asin(sqrt(p2))))
-
-    return(result)
-
-}
+cohens_h = function(p1, p2) abs(2*(asin(sqrt(p1)) - asin(sqrt(p2))))
 
 #' @title Outliers In Small Samples
 #' @description A function to find outliers in small samples. Method seen here: https://bit.ly/2DFmsJr
@@ -40,23 +34,6 @@ outliers_ih <- function(vec){
     mi <- .6745*(vec - mean(vec))/mad(vec)
     result <- vec[abs(mi) > 3.5]
 
-    return(result)
-
-}
-
-#' @title Check Key
-#' @description Checks if two dataframes are equal.
-#' @param df1 A dataframe
-#' @param df2 The second dataframe
-#' @return TRUE if the dataframes are equal else FALSE
-#' @export
-
-check_key <- function(dict, key){
-
-    result <- ifelse(key %in% names(fromJSON(dict)), fromJSON(dict)[key], NA)
-
-    return(result)
-
 }
 
 #' @title Extract JSON
@@ -66,14 +43,14 @@ check_key <- function(dict, key){
 #' @return TRUE if the dataframes are equal else FALSE
 #' @export
 
-extract_json <- function(df){
+extract_json = function(df){
+
+    check_key = function(dict, key) ifelse(key %in% names(fromJSON(dict)), fromJSON(dict)[key], NA)
 
     result <- df %>%
         mutate(
             col_new = unlist(future_map(col, ~ check_key(.x, "")))
         )
-
-    return(result)
 
 }
 
@@ -84,7 +61,7 @@ extract_json <- function(df){
 #' @return TRUE if the dataframes are equal else FALSE
 #' @export
 
-detect_outliers_mad <- function(group, interval = 2){
+detect_outliers_mad = function(group, interval = 2){
 
     med = median(group)
     mad_ = mad(group)
@@ -95,11 +72,9 @@ detect_outliers_mad <- function(group, interval = 2){
     # The inversion is necessary to have the outliers labeled at 1 instead of 0
     results_inverted <- as.integer(1 - results)
 
-    return(results_inverted)
-
 }
 
-md_tbl_to_df <- function(md_tbl){
+md_tbl_to_df = function(md_tbl){
   
   md_tbl_cleaned <- md_tbl %>% str_split("\n") %>% pluck(1) %>%
   discard(~ (nchar(.x) == 0) | str_detect(.x, "\\|---"))
@@ -113,33 +88,59 @@ md_tbl_to_df <- function(md_tbl){
   body_cleaned <- body %>% str_split("\\|") %>% map(~ discard(.x, ~ nchar(.x) == 0)) %>% 
     map(~ map_chr(.x, ~ trimws(.x)))
   
-  md_tbl_df <- body_cleaned %>% transpose() %>% map(~ unlist(.x)) %>% 
-    set_names(header_cleaned) %>% data.frame()
-
-  return(md_tbl_df)
+  md_tbl_df <- body_cleaned %>%
+   transpose() %>% 
+   map(~ unlist(.x)) %>% 
+   set_names(header_cleaned) %>% 
+   data.frame()
   
 }
 
-ls_funcs <- function(pkg){
+ls_funcs = function(pkg){
 
-  result <- glue::glue("package:{pkg}") %>%
+  glue::glue("package:{pkg}") %>%
     lsf.str() %>%
     toString() %>%
     stringr::str_split(", ") %>%
     data.frame() %>%
     dplyr::rename("functions" = 1)
 
-  return(result)
-
 }
 
-create_iso8601_dates <- function(vec){
+create_iso8601_dates = function(vec){
 
-  payload <- vec %>% map(
+  vec %>% map(
     ~ .x %>% as.POSIXct(format = "%d-%b-%Y %H:%M") %>% format_ISO8601()
   ) %>% unlist()
 
-  return(payload)
+}
+
+change_range = function(x, new_min, new_max){
+
+  zero_one_range = (x - min(x))/(max(x) - min(x))
+  new_range = (new_max - new_min)*zero_one_range + new_min
 
 }
+
+read_pkg_dependency_tree = function(
+  pack,
+  dep_level = c("Depends", "Imports", "LinkingTo"), 
+  available_packages = available.packages()
+) {
   
+  # source; https://gist.github.com/johnrc/faaa796e4b1ac53b7848
+  # ex: read_pkg_dependency_tree("dplyr")
+  
+  packages = pack %>% 
+    package_dependencies(available_packages, which = dep_level) %>% 
+    unlist() %>% 
+    unname()
+  
+  for(pkg in packages) {
+    packages = c(packages, read_pkg_dependency_tree(pkg, dep_level, available_packages))
+  }
+  
+  packages
+  
+}
+

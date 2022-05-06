@@ -28,8 +28,6 @@ get_dummies <- function(df, col){
         select_(paste("-", col)) %>%
         cbind(., dummied_cols)
 
-    return(result)
-
 }
 
 #' @title Unpack List Column As String
@@ -46,8 +44,6 @@ list_col_to_str <- function(df, col){
         !!sym(col) := map_chr(!!sym(col), ~ paste(.x, collapse = "-"))
     )
 
-    return(result)
-
 }
 
 #' @title Identify Columns With NAs
@@ -58,14 +54,12 @@ list_col_to_str <- function(df, col){
 
 cols_missing_data <- function(df, frac){
 
-    df_smry <- skimr::skim_to_wide(df)
+    df_smry <- skim_to_wide(df)
 
     results <- df_smry %>%
         mutate(missing_ratio = as.integer(missing)/as.integer(n)) %>%
         filter(missing_ratio >= frac) %>%
         pull(variable)
-
-    return(results)
 
 }
 
@@ -87,8 +81,6 @@ update_label_nas <- function(df){
             {{col_new}} := ifelse(is.na((!!sym(col_with_na))), 1, 0)
         )
 
-        return(result)
-
     }
 
     cols_with_na <- df %>%
@@ -96,8 +88,6 @@ update_label_nas <- function(df){
         names()
 
     result <- reduce(cols_with_na, ~ update_label_na(.x, .y), .init = df)
-
-    return(result)
 
 }
 
@@ -114,14 +104,12 @@ update_label_nas <- function(df){
 
 drop_na_col <- function(df, method = "all", frac = 0.1){
 
-    result <- switch(
+    switch(
         method,
         "all" = discard(df, ~ all(is.na(.x))),
         "frac" = discard(df, ~ mean(is.na(.x)) > frac),
         "any" = discard(df, ~ sum(is.na(.x)) > 0)
     )
-
-    return(result)
 
 }
 
@@ -133,14 +121,11 @@ drop_na_col <- function(df, method = "all", frac = 0.1){
 
 drop_anomalous_cols <- function(df){
 
-    anomalous_cols <- df %>%
+    df %>%
         xray::anomalies() %>%
-        purrr::pluck("problem_variables", "Variable")
-
-    result <- select(df, -one_of(anomalous_cols))
-
-    return(result)
-
+        purrr::pluck("problem_variables", "Variable") %>%
+        select(df, -one_of(.))
+        
 }
 
 
