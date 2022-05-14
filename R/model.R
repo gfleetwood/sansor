@@ -4,7 +4,7 @@
 #' @return A list of linear model evaluation metrics.
 #' @export
 
-lm_check <- function(mdl){
+lm_check = function(mdl){
 
     list(
         car::avPlots(mdl),
@@ -24,33 +24,11 @@ lm_check <- function(mdl){
 #' @param binary_class_col A string with the name of the column with the labels
 #' @export
 
-model_calibration <- function(df, preds_col, binary_class_col){
+model_calibration = function(df, preds_col, binary_class_col){
 
-    result <- df %>%
+    df %>%
         ggplot(aes(!!sym(preds_col), !!sym(binary_class_col))) +
         geom_smooth()
-
-}
-
-#' @title Train Test Split
-#' @description Splits a dataframe into training and testing sets
-#' @param df A dataframe
-#' @param frac The proportion of the data to be used for training
-#' @return A dataframe with an extra column called train where a 1 means the data point
-#' is in the training set.
-#' @export
-
-train_test_split <- function(df, frac){
-
-    # index <- caret::createDataPartition(df$target, p = frac, list = FALSE)
-    # train <- slice(df, index)
-    # test <- slice(df, -index)
-
-    df_split <- initial_split(df, prop = frac)
-    train <- training(df_split) %>% mutate(train = 1)
-    test <- testing(df_split) %>% mutate(train = 0)
-
-    rbind(train, test)
 
 }
 
@@ -62,9 +40,12 @@ train_test_split <- function(df, frac){
 #' @return A hierarchical cluster object
 #' @export
 
-time_series_clustering <- function(mat, dist = "dtw", linkage = "average"){
+time_series_clustering = function(mat, dist = "dtw", linkage = "average"){
 
     mat_dist <- parDist(x = mat, method = dist)
     result <- hclust(mat_dist, method = linkage)
 
 }
+
+
+

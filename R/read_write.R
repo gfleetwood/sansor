@@ -6,13 +6,13 @@
 #' @return The df variable without the anomalous columns
 #' @export
 
-create_tbl <- function(data, schema, tbl_name){
+create_tbl = function(data, schema_name, tbl_name){
 
-    tbl <- read_csv(tbl_path)
+    tbl = read_csv(tbl_path)
 
     dbWriteTable(
         con,
-        DBI::Id(schema = schema, table = tbl_name),
+        DBI::Id(schema = schema_name, table = tbl_name),
         data
     )
 

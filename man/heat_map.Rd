@@ -4,7 +4,7 @@
 \alias{heat_map}
 \title{Correlation Heatmap}
 \usage{
-heat_map(df)
+heat_map(df, interactive = FALSE)
 }
 \arguments{
 \item{df}{A dataframe}
@@ -13,5 +13,5 @@ heat_map(df)
 A correlation heatmap of the numeric columns of the dataframe.
 }
 \description{
-Correlation Heatmap
+Generate a statis or interactive heatmap.
 }

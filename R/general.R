@@ -29,10 +29,10 @@ cohens_h = function(p1, p2) abs(2*(asin(sqrt(p1)) - asin(sqrt(p2))))
 #' @return A boolean vector of which values are and are not outliers
 #' @export
 
-outliers_ih <- function(vec){
+outliers_iglewicz_hoaglin = function(vec){
 
     mi <- .6745*(vec - mean(vec))/mad(vec)
-    result <- vec[abs(mi) > 3.5]
+    vec[abs(mi) > 3.5]
 
 }
 
@@ -74,6 +74,13 @@ detect_outliers_mad = function(group, interval = 2){
 
 }
 
+#' @title Markdown Table to Dataframe
+#' @description Converts a markdown table to a dataframe.
+#' @param df1 A dataframe
+#' @param df2 The second dataframe
+#' @return TRUE if the dataframes are equal else FALSE
+#' @export
+
 md_tbl_to_df = function(md_tbl){
   
   md_tbl_cleaned <- md_tbl %>% str_split("\n") %>% pluck(1) %>%
@@ -96,6 +103,13 @@ md_tbl_to_df = function(md_tbl){
   
 }
 
+#' @title List Package Functions
+#' @description Lists a package's functions as a dataframe.
+#' @param df1 A dataframe
+#' @param df2 The second dataframe
+#' @return TRUE if the dataframes are equal else FALSE
+#' @export
+
 ls_funcs = function(pkg){
 
   glue::glue("package:{pkg}") %>%
@@ -107,6 +121,13 @@ ls_funcs = function(pkg){
 
 }
 
+#' @title ISO-8601 Date Creation
+#' @description Checks if two dataframes are equal.
+#' @param df1 A dataframe
+#' @param df2 The second dataframe
+#' @return TRUE if the dataframes are equal else FALSE
+#' @export
+
 create_iso8601_dates = function(vec){
 
   vec %>% map(
@@ -115,12 +136,26 @@ create_iso8601_dates = function(vec){
 
 }
 
+#' @title Change Range
+#' @description Checks if two dataframes are equal.
+#' @param df1 A dataframe
+#' @param df2 The second dataframe
+#' @return TRUE if the dataframes are equal else FALSE
+#' @export
+
 change_range = function(x, new_min, new_max){
 
   zero_one_range = (x - min(x))/(max(x) - min(x))
   new_range = (new_max - new_min)*zero_one_range + new_min
 
 }
+
+#' @title Read Package Dependency Trees
+#' @description Checks if two dataframes are equal.
+#' @param df1 A dataframe
+#' @param df2 The second dataframe
+#' @return TRUE if the dataframes are equal else FALSE
+#' @export
 
 read_pkg_dependency_tree = function(
   pack,

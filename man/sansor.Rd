@@ -4,6 +4,3 @@
 \name{sansor}
 \alias{sansor}
 \title{sansor: An eclectic mix of Data Science scripts.}
-\description{
-sansor: An eclectic mix of Data Science scripts.
-}

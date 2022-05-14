@@ -4,13 +4,7 @@
 #' @return The data with duplicated columns removed
 #' @export
 
-remove_duplicate_cols <- function(df){
-
-    result <- df[!duplicated(names(df), fromLast = TRUE)]
-
-    return(result)
-
-}
+remove_duplicate_cols <- function(df) df[!duplicated(names(df), fromLast = TRUE)]
 
 #' @title Get Dummies
 #' @description Dummy a given categorical variable
@@ -24,7 +18,7 @@ get_dummies <- function(df, col){
     dmy <- dummyVars(paste("~", col), data = df)
     dummied_cols <- data.frame(predict(dmy, newdata = df))
 
-    result <- df %>%
+    df %>%
         select_(paste("-", col)) %>%
         cbind(., dummied_cols)
 
@@ -39,7 +33,7 @@ get_dummies <- function(df, col){
 
 list_col_to_str <- function(df, col){
 
-    result <- mutate(
+    mutate(
         df,
         !!sym(col) := map_chr(!!sym(col), ~ paste(.x, collapse = "-"))
     )
@@ -54,9 +48,8 @@ list_col_to_str <- function(df, col){
 
 cols_missing_data <- function(df, frac){
 
-    df_smry <- skim_to_wide(df)
-
-    results <- df_smry %>%
+    df %>%
+        skim_to_wide() %>%
         mutate(missing_ratio = as.integer(missing)/as.integer(n)) %>%
         filter(missing_ratio >= frac) %>%
         pull(variable)
@@ -76,7 +69,7 @@ update_label_nas <- function(df){
 
         col_new <- paste(col_with_na, "is_na", sep = "_")
 
-        result <- mutate(
+        mutate(
             df,
             {{col_new}} := ifelse(is.na((!!sym(col_with_na))), 1, 0)
         )
@@ -87,7 +80,7 @@ update_label_nas <- function(df){
         keep(~ sum(is.na(.)) > 0) %>%
         names()
 
-    result <- reduce(cols_with_na, ~ update_label_na(.x, .y), .init = df)
+    reduce(cols_with_na, ~ update_label_na(.x, .y), .init = df)
 
 }
 
