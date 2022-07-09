@@ -179,3 +179,41 @@ read_pkg_dependency_tree = function(
   
 }
 
+#' @title Intuitive List Pkgs
+#' @description Checks if two dataframes are equal.
+#' @return Lists all loaded packages
+#' @export
+
+read_loaded_pkgs = \(x) { search() }
+
+create_datetime = \(year = 0, month = 0, day = 0, hours = 0, minutes = 0, seconds = 0){
+  
+  datetime = list(
+    year = year,
+    month = month,
+    day = day,
+    hours = hours,
+    minutes = minutes,
+    seconds = seconds
+  )
+  
+}
+
+#' @title Requirements Script
+#' @description Checks if two dataframes are equal.
+#' @return Lists all loaded packages
+#' @export
+create_requirements_script <- \(){
+  
+  installed.packages() %>% 
+    as.data.frame(stringsAsFactors = F) %>% 
+    select(Package, Version) %>% 
+    mutate(
+      install_cmd = glue::glue('devtools::install_version("{Package}", version = "{Version}", dependencies = TRUE)')
+    ) %>% 
+    pull(install_cmd) %>% 
+    readr::write_lines("./requirements.R")
+  
+}
+
+
