@@ -200,7 +200,7 @@ create_datetime = \(year = 0, month = 0, day = 0, hours = 0, minutes = 0, second
 }
 
 #' @title Requirements Script
-#' @description Checks if two dataframes are equal.
+#' @description 
 #' @return Lists all loaded packages
 #' @export
 create_requirements_script <- \(){
@@ -209,10 +209,10 @@ create_requirements_script <- \(){
     as.data.frame(stringsAsFactors = F) %>% 
     select(Package, Version) %>% 
     mutate(
-      install_cmd = glue::glue('devtools::install_version("{Package}", version = "{Version}", dependencies = TRUE)')
+      install_cmd = glue('devtools::install_version("{Package}", version = "{Version}", dependencies = TRUE)')
     ) %>% 
     pull(install_cmd) %>% 
-    readr::write_lines("./requirements.R")
+    readr::write_lines("./requirements.r")
   
 }
 
@@ -283,5 +283,17 @@ pyrmd_to_py <- \(input_file_path, output_file_path){
     write_file(output_file_path)
   
   TRUE
+  
+}
+
+library(DBI)
+library(dbplyr)
+library(tidyverse)
+
+create_sql_table_query <- \(con, df,  tbl_name){
+  
+  #con <- dbConnect(RSQLite::SQLite(), ":memory:")
+  query <- sqlCreateTable(con, tbl_name, df, row.names = F)
+  toString(query) %>% str_replace_all("`","")
   
 }
