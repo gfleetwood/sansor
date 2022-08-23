@@ -5,8 +5,7 @@
 #' @param tbl_path The path to the table
 #' @return The df variable without the anomalous columns
 #' @export
-
-create_tbl = function(data, schema_name, tbl_name){
+create_tbl <- function(data, schema_name, tbl_name){
 
     tbl = read_csv(tbl_path)
 
@@ -27,9 +26,7 @@ create_tbl = function(data, schema_name, tbl_name){
 #' @param tbl_path The path to the table
 #' @return The df variable without the anomalous columns
 #' @export
-
-
-read_db_data_thru_tunnel = function(qry){
+read_db_data_thru_tunnel <- function(qry){
    
    cmd = Sys.getenv("TUNNEL")
    rp = r_bg(function(x) system(x), args = list(cmd))
@@ -48,4 +45,37 @@ read_db_data_thru_tunnel = function(qry){
    rp$kill()
    df
    
+}
+             
+create_sql_table_query <- \(con, df,  tbl_name){
+  
+  #con <- dbConnect(RSQLite::SQLite(), ":memory:")
+  query <- sqlCreateTable(con, tbl_name, df, row.names = F)
+  toString(query) %>% str_replace_all("`","")
+  
+}
+
+create_sql_value_representation <- \(row){
+
+  row_sql_temp <- unname(row) %>%
+    map(as.character) %>%
+    paste(collapse = ", ")
+
+  glue::glue("({row_sql_temp})")
+
+}
+
+#g(iris)
+create_sql_insert_query <- \(df){
+
+  template = "
+  INSERT INTO table_name
+  VALUES
+  "
+
+  map_chr(1:nrow(df), ~ create_sql_value_representation(df[.x, ])) %>%
+    paste(collapse = ",\n ") %>%
+    paste(template, ., ";") %>%
+    cat()
+
 }
