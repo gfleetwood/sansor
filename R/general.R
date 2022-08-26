@@ -216,6 +216,10 @@ create_requirements_script <- \(){
   
 }
 
+#' @title Convert RMD To Python Script
+#' @description Converts an Rmd with comments and Python chunks to a Python script
+#' @return TRUE
+#' @export
 pyrmd_to_py <- \(input_file_path, output_file_path){
   
   # Converts an rmd file with python chunks to a python script.
