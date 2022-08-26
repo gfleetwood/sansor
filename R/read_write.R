@@ -46,7 +46,14 @@ read_db_data_thru_tunnel <- function(qry){
    df
    
 }
-             
+  
+#' @title Read Data Thru Tunnel
+#' @description U
+#' @param con DB connection
+#' @param df schema Schema name
+#' @param tbl_name The path to the table
+#' @return SQL query to create the dataframe as a table in a database
+#' @export
 create_sql_table_query <- \(con, df,  tbl_name){
   
   #con <- dbConnect(RSQLite::SQLite(), ":memory:")
@@ -55,7 +62,16 @@ create_sql_table_query <- \(con, df,  tbl_name){
   
 }
 
-create_sql_value_representation <- \(row){
+#' @title CSV To SQL Insert Statement
+#' @description g(iris)
+#' @param con DB connection
+#' @param schema Schema name
+#' @param tbl_path The path to the table
+#' @return The df variable without the anomalous columns
+#' @export
+create_sql_insert_query <- \(df){
+    
+    create_sql_value_representation <- \(row){
 
   row_sql_temp <- unname(row) %>%
     map(as.character) %>%
@@ -64,9 +80,6 @@ create_sql_value_representation <- \(row){
   glue::glue("({row_sql_temp})")
 
 }
-
-#g(iris)
-create_sql_insert_query <- \(df){
 
   template = "
   INSERT INTO table_name
