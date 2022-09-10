@@ -47,8 +47,8 @@ read_db_data_thru_tunnel <- function(qry){
    
 }
   
-#' @title Read Data Thru Tunnel
-#' @description U
+#' @title Get Create Table Query
+#' @description Get the SQL equivalent of creting a table from its tidyverse representation.
 #' @param con DB connection
 #' @param df schema Schema name
 #' @param tbl_name The path to the table
