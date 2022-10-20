@@ -289,3 +289,17 @@ pyrmd_to_py <- \(input_file_path, output_file_path){
   TRUE
   
 }
+
+read_timestamp_as_str_iso8601 <- \(x){
+  
+  as.POSIXlt(Sys.time(), "UTC") %>% 
+    strftime("%Y-%m-%dT%H:%M:%S%z")
+  
+}
+
+read_timestamp_as_date_iso8601 <- \(x){
+  
+  as.POSIXlt(Sys.time(), "UTC") %>% 
+    strptime("%Y-%m-%dT%H:%M:%S%z")
+  
+}
