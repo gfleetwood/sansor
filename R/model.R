@@ -47,5 +47,11 @@ time_series_clustering = function(mat, dist = "dtw", linkage = "average"){
 
 }
 
+find_mode <- function(x) {
+u <- unique(x)
+tab <- tabulate(match(x, u))
+u[tab == max(tab)]
+}
+
 
 
