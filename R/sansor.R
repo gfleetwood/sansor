@@ -10,4 +10,8 @@
 #' @import latex2exp
 #' @import glue
 #' @import tools
+#' @import RSQLite
+#' @import DBI
+#' @import odbc
+#' @import keypress
 NULL
