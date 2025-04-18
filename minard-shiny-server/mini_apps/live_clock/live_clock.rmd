@@ -1,0 +1,24 @@
+---
+title: "Live RMD"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include = F}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo = F}
+data <- reactivePoll(
+  1000, 
+  session,
+  checkFunc = function() {sample(1:1000, 1)},
+  valueFunc = function() {as.character(Sys.time())}
+)
+
+p(
+  "A test to make a live document using Rmd. The current time is", 
+  renderText({data()}, outputArgs = list(inline = TRUE)), 
+  "."
+  )
+```
